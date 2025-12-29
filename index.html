@@ -315,9 +315,9 @@
         }
 
         .satisfaction-option {
-            padding: 24px;
+            padding: 28px;
             border: 3px solid #e2e8f0;
-            border-radius: 16px;
+            border-radius: 20px;
             cursor: pointer;
             text-align: center;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -326,23 +326,81 @@
             align-items: center;
             justify-content: center;
             gap: 15px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .satisfaction-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .satisfaction-option.happy::before {
+            background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%);
+        }
+
+        .satisfaction-option.neutral::before {
+            background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .satisfaction-option.sad::before {
+            background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
         }
 
         .satisfaction-option:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transform: scale(1.03);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .satisfaction-option:hover::before {
+            opacity: 1;
         }
 
         .satisfaction-option.selected {
-            border-color: #667eea;
-            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
+            border-width: 3px;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+            transform: scale(1.02);
+        }
+
+        .satisfaction-option.happy.selected {
+            border-color: #22c55e;
+            background: linear-gradient(135deg, #22c55e15 0%, #16a34a15 100%);
+        }
+
+        .satisfaction-option.neutral.selected {
+            border-color: #f59e0b;
+            background: linear-gradient(135deg, #f59e0b15 0%, #d9770615 100%);
+        }
+
+        .satisfaction-option.sad.selected {
+            border-color: #ef4444;
+            background: linear-gradient(135deg, #ef444415 0%, #dc262615 100%);
+        }
+
+        .satisfaction-option.selected::before {
+            opacity: 1;
         }
 
         .satisfaction-option .emoji {
-            font-size: 40px;
+            font-size: 48px;
+        }
+
+        .satisfaction-emoji {
+            font-size: 48px;
+            line-height: 1;
+        }
+
+        .satisfaction-label {
+            font-size: 18px;
+            font-weight: 700;
         }
 
         /* ACTIONS */
@@ -629,28 +687,53 @@
                             <div className="header">
                                 <div style={{ 
                                     display: 'flex', 
-                                    alignItems: 'center', 
-                                    gap: '20px',
-                                    justifyContent: 'space-between'
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    gap: '20px'
                                 }}>
+                                    {/* Logo */}
                                     <img 
                                         src="logo.png" 
                                         alt="Logo BVNĐ Cần Thơ"
                                         style={{ 
-                                            width: '120px',
+                                            width: '140px',
                                             height: 'auto',
-                                            flexShrink: 0
+                                            filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.1))'
                                         }}
                                         onError={(e) => { e.target.style.display = 'none' }}
                                     />
-                                    <div style={{ flex: 1, textAlign: 'left' }}>
-                                        <h1 style={{ fontSize: '24px', marginBottom: '8px', color: '#667eea', fontWeight: '700' }}>
+                                    
+                                    {/* Title Section */}
+                                    <div style={{ textAlign: 'center' }}>
+                                        <h1 style={{ 
+                                            fontSize: '28px', 
+                                            marginBottom: '12px',
+                                            background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
+                                            WebkitBackgroundClip: 'text',
+                                            WebkitTextFillColor: 'transparent',
+                                            backgroundClip: 'text',
+                                            fontWeight: '800',
+                                            letterSpacing: '-0.5px'
+                                        }}>
                                             GÓP Ý KHÁCH HÀNG
                                         </h1>
-                                        <h2 style={{ fontSize: '16px', color: '#2d3748', fontWeight: '600', marginBottom: '6px' }}>
+                                        <h2 style={{ 
+                                            fontSize: '18px', 
+                                            color: '#1e40af', 
+                                            fontWeight: '700', 
+                                            marginBottom: '8px' 
+                                        }}>
                                             Bệnh viện Nhi đồng TP Cần Thơ
                                         </h2>
-                                        <p style={{ fontSize: '14px', margin: 0 }}>Ý kiến của bạn giúp chúng tôi phục vụ tốt hơn</p>
+                                        <p style={{ 
+                                            fontSize: '15px', 
+                                            margin: 0,
+                                            color: '#64748b',
+                                            fontWeight: '500',
+                                            fontStyle: 'italic'
+                                        }}>
+                                            ✨ Ý kiến của bạn giúp chúng tôi phục vụ tốt hơn
+                                        </p>
                                     </div>
                                 </div>
                             </div>
