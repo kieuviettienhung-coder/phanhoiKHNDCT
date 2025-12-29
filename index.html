@@ -258,8 +258,8 @@
 
         /* FEEDBACK ITEM - Phân cách bằng đường kẻ */
         .feedback-item {
-            padding: 16px 0;
-            border-bottom: 2px solid #e5e7eb;
+            padding: 20px 0;
+            border-bottom: 4px double #d1d5db;
         }
 
         .feedback-item:last-child {
@@ -464,17 +464,14 @@
         .feedback-actions {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 12px;
-            margin-bottom: 16px;
-            padding-bottom: 16px;
-            border-bottom: 2px solid #e5e7eb;
+            gap: 6px;
+            margin-top: 16px;
         }
 
         .feedback-actions .btn {
-            font-size: 14px;
-            padding: 10px 16px;
-            min-height: 40px;
+            font-size: 13px;
+            padding: 8px 12px;
+            min-height: 36px;
         }
 
         /* STATS - Đẹp hơn */
@@ -1838,66 +1835,7 @@ ${feedbackData.content}
                                             </span>
                                         </div>
 
-                                        {/* Action Buttons - ĐƯA LÊN TRÊN */}
-                                        <div className="feedback-actions">
-                                            {feedback.status === 'new' && (
-                                                <>
-                                                    <button
-                                                        className="btn btn-warning"
-                                                        onClick={() => updateStatus(feedback.id, 'processing')}
-                                                    >
-                                                        ⏳ Xử lý
-                                                    </button>
-                                                    <button
-                                                        className="btn btn-secondary"
-                                                        onClick={() => openTransferModal(feedback.id)}
-                                                    >
-                                                        🔄 Chuyển
-                                                    </button>
-                                                </>
-                                            )}
-                                            {feedback.status === 'processing' && (
-                                                <>
-                                                    <button
-                                                        className="btn btn-success"
-                                                        onClick={() => openResponseModal(feedback.id)}
-                                                    >
-                                                        💬 Phản hồi & Kết thúc
-                                                    </button>
-                                                    <button
-                                                        className="btn btn-secondary"
-                                                        onClick={() => openTransferModal(feedback.id)}
-                                                    >
-                                                        🔄 Chuyển
-                                                    </button>
-                                                </>
-                                            )}
-                                            {feedback.status === 'resolved' && (
-                                                <>
-                                                    <button
-                                                        className="btn btn-primary"
-                                                        onClick={() => openResponseModal(feedback.id)}
-                                                        style={{ fontSize: '14px' }}
-                                                    >
-                                                        ✏️ Sửa phản hồi
-                                                    </button>
-                                                    <button
-                                                        className="btn btn-warning"
-                                                        onClick={() => updateStatus(feedback.id, 'processing')}
-                                                    >
-                                                        ↩️ Mở lại
-                                                    </button>
-                                                </>
-                                            )}
-                                            <button
-                                                className="btn btn-danger"
-                                                onClick={() => deleteFeedback(feedback.id)}
-                                            >
-                                                🗑️
-                                            </button>
-                                        </div>
-
-                                        {/* Nội dung - Ở DƯỚI */}
+                                        {/* Nội dung */}
                                         <div className="feedback-content">
                                             <strong>💬 Nội dung:</strong>
                                             <p>{feedback.content}</p>
@@ -1969,6 +1907,65 @@ ${feedbackData.content}
                                                     )}
                                                 </div>
                                             )}
+                                        </div>
+
+                                        {/* Action Buttons - Ở DƯỚI */}
+                                        <div className="feedback-actions">
+                                            {feedback.status === 'new' && (
+                                                <>
+                                                    <button
+                                                        className="btn btn-warning"
+                                                        onClick={() => updateStatus(feedback.id, 'processing')}
+                                                    >
+                                                        ⏳ Xử lý
+                                                    </button>
+                                                    <button
+                                                        className="btn btn-secondary"
+                                                        onClick={() => openTransferModal(feedback.id)}
+                                                    >
+                                                        🔄 Chuyển
+                                                    </button>
+                                                </>
+                                            )}
+                                            {feedback.status === 'processing' && (
+                                                <>
+                                                    <button
+                                                        className="btn btn-success"
+                                                        onClick={() => openResponseModal(feedback.id)}
+                                                    >
+                                                        💬 Phản hồi & Kết thúc
+                                                    </button>
+                                                    <button
+                                                        className="btn btn-secondary"
+                                                        onClick={() => openTransferModal(feedback.id)}
+                                                    >
+                                                        🔄 Chuyển
+                                                    </button>
+                                                </>
+                                            )}
+                                            {feedback.status === 'resolved' && (
+                                                <>
+                                                    <button
+                                                        className="btn btn-primary"
+                                                        onClick={() => openResponseModal(feedback.id)}
+                                                        style={{ fontSize: '14px' }}
+                                                    >
+                                                        ✏️ Sửa phản hồi
+                                                    </button>
+                                                    <button
+                                                        className="btn btn-warning"
+                                                        onClick={() => updateStatus(feedback.id, 'processing')}
+                                                    >
+                                                        ↩️ Mở lại
+                                                    </button>
+                                                </>
+                                            )}
+                                            <button
+                                                className="btn btn-danger"
+                                                onClick={() => deleteFeedback(feedback.id)}
+                                            >
+                                                🗑️
+                                            </button>
                                         </div>
                                     </div>
                                 ))}
