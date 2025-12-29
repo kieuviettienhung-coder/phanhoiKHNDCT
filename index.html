@@ -1,0 +1,2379 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Góp Ý Khách Hàng - BVNĐ Cần Thơ</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        .container.admin {
+            max-width: 1400px;
+        }
+
+        /* HEADER STYLES - Hiện đại hơn */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .header h1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        /* BUTTON STYLES - Gradient và hover effects */
+        .btn {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 48px;
+            touch-action: manipulation;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.4);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 6px 20px rgba(74, 222, 128, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(248, 113, 113, 0.4);
+        }
+
+        .btn-danger:hover {
+            box-shadow: 0 6px 20px rgba(248, 113, 113, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(251, 146, 60, 0.4);
+        }
+
+        .btn-warning:hover {
+            box-shadow: 0 6px 20px rgba(251, 146, 60, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(52, 211, 153, 0.4);
+        }
+
+        .btn-success:hover {
+            box-shadow: 0 6px 20px rgba(52, 211, 153, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* CARD STYLES - Shadow và animation đẹp hơn */
+        .card {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+
+        /* FEEDBACK CARD - Đẹp hơn */
+        .feedback-card {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            margin-bottom: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 4px solid #667eea;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feedback-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea15 0%, transparent 100%);
+            border-radius: 0 0 0 100px;
+        }
+
+        .feedback-card:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            transform: translateY(-4px);
+        }
+
+        /* BADGES - Gradient đẹp */
+        .satisfaction-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-right: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .satisfaction-badge.happy {
+            background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+            color: white;
+        }
+
+        .satisfaction-badge.neutral {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: white;
+        }
+
+        .satisfaction-badge.sad {
+            background: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .status-badge.status-new {
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            color: white;
+        }
+
+        .status-badge.status-processing {
+            background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%);
+            color: white;
+        }
+
+        .status-badge.status-resolved {
+            background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+            color: white;
+        }
+
+        /* FORM STYLES */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .required {
+            color: #ef4444;
+            margin-left: 4px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+            font-family: inherit;
+        }
+
+        /* SATISFACTION OPTIONS - Đẹp hơn */
+        .satisfaction-options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .satisfaction-option {
+            padding: 24px;
+            border: 3px solid #e2e8f0;
+            border-radius: 16px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .satisfaction-option:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .satisfaction-option.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .satisfaction-option .emoji {
+            font-size: 40px;
+        }
+
+        /* ACTIONS */
+        .feedback-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .feedback-actions .btn {
+            font-size: 14px;
+            padding: 10px 16px;
+            min-height: 40px;
+        }
+
+        /* STATS - Đẹp hơn */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .stat-card .stat-number {
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .stat-label {
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* FILTERS */
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        /* SUCCESS MESSAGE */
+        .success-message {
+            background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(52, 211, 153, 0.4);
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-message h2 {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .success-message p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        /* LOADING */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .btn {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+
+            .stat-card .stat-number {
+                font-size: 28px;
+            }
+
+            .feedback-card {
+                padding: 16px;
+            }
+
+            .satisfaction-option {
+                padding: 16px;
+            }
+
+            .satisfaction-option .emoji {
+                font-size: 32px;
+            }
+        }
+
+        /* NOTIFICATION BADGE */
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 4px 8px;
+            font-size: 12px;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #64748b;
+        }
+
+        .empty-state .empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // EmailJS Configuration - THAY BẰNG THÔNG TIN CỦA BẠN (TÙY CHỌN)
+        const EMAILJS_SERVICE_ID = 'THAY_SERVICE_ID_CUA_BAN';  // Ví dụ: 'service_bvnd123'
+        const EMAILJS_TEMPLATE_ID = 'THAY_TEMPLATE_ID_CUA_BAN'; // Ví dụ: 'template_feedback123'
+        const EMAILJS_PUBLIC_KEY = 'THAY_PUBLIC_KEY_CUA_BAN';   // Ví dụ: 'user_1234567890abcdef'
+
+        // Telegram Bot Configuration - ĐÃ CẤU HÌNH SẴN
+        const TELEGRAM_BOT_TOKEN = '8223316349:AAF5nm35vokxZfYJh4Wcdz_iuSItyN_E5uU';
+        const TELEGRAM_CHAT_ID = '5718070140';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA5187r8QLGAHe89fD0OLwU0LTLRyz_rFU",
+            authDomain: "bvnd-cantho-feedback-26b67.firebaseapp.com",
+            databaseURL: "https://bvnd-cantho-feedback-26b67-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "bvnd-cantho-feedback-26b67",
+            storageBucket: "bvnd-cantho-feedback-26b67.firebasestorage.app",
+            messagingSenderId: "496570009674",
+            appId: "1:496570009674:web:9adfb9ee89f3febddf7eb3",
+            measurementId: "G-WNQ6221DEL"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+
+        const db = firebase.database();
+        const auth = firebase.auth();
+
+        // Main App Component
+        function App() {
+            const [currentView, setCurrentView] = useState('form');
+            const [user, setUser] = useState(null);
+            const [loading, setLoading] = useState(true);
+
+            useEffect(() => {
+                const unsubscribe = auth.onAuthStateChanged((user) => {
+                    setUser(user);
+                    setLoading(false);
+                    if (user && currentView === 'form') {
+                        setCurrentView('qr');
+                    }
+                });
+                return unsubscribe;
+            }, []);
+
+            if (loading) {
+                return (
+                    <div className="loading">
+                        <div className="spinner"></div>
+                        <p>Đang tải...</p>
+                    </div>
+                );
+            }
+
+            const isAdmin = user !== null;
+            const showCustomerView = !user && currentView === 'form';
+
+            return (
+                <div className={`container ${isAdmin ? 'admin' : ''}`}>
+                    {showCustomerView ? (
+                        // Customer view with admin button at bottom
+                        <>
+                            <div className="header">
+                                <div style={{ 
+                                    display: 'flex', 
+                                    alignItems: 'center', 
+                                    gap: '20px',
+                                    justifyContent: 'space-between'
+                                }}>
+                                    <img 
+                                        src="logo.png" 
+                                        alt="Logo BVNĐ Cần Thơ"
+                                        style={{ 
+                                            width: '120px',
+                                            height: 'auto',
+                                            flexShrink: 0
+                                        }}
+                                        onError={(e) => { e.target.style.display = 'none' }}
+                                    />
+                                    <div style={{ flex: 1, textAlign: 'left' }}>
+                                        <h1 style={{ fontSize: '24px', marginBottom: '8px', color: '#667eea', fontWeight: '700' }}>
+                                            GÓP Ý KHÁCH HÀNG
+                                        </h1>
+                                        <h2 style={{ fontSize: '16px', color: '#2d3748', fontWeight: '600', marginBottom: '6px' }}>
+                                            Bệnh viện Nhi đồng TP Cần Thơ
+                                        </h2>
+                                        <p style={{ fontSize: '14px', margin: 0 }}>Ý kiến của bạn giúp chúng tôi phục vụ tốt hơn</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <FeedbackForm />
+                            
+                            {/* Admin access button */}
+                            <div className="admin-footer">
+                                <p>Quản trị viên</p>
+                                <button 
+                                    className="btn btn-outline"
+                                    onClick={() => setCurrentView('login')}
+                                >
+                                    🔐 Đăng Nhập Quản Lý
+                                </button>
+                            </div>
+                        </>
+                    ) : (
+                        // Admin view
+                        <>
+                            <AdminHeader 
+                                currentView={currentView} 
+                                setCurrentView={setCurrentView}
+                                user={user}
+                                setUser={setUser}
+                            />
+                            
+                            {currentView === 'qr' && user && <QRGenerator />}
+                            {currentView === 'admin' && user && <AdminDashboard />}
+                            {currentView === 'reports' && user && <Reports />}
+                            {currentView === 'login' && <Login setUser={setUser} setCurrentView={setCurrentView} />}
+                        </>
+                    )}
+                </div>
+            );
+        }
+
+        // Admin Header Component
+        function AdminHeader({ currentView, setCurrentView, user, setUser }) {
+            const [unreadCount, setUnreadCount] = useState(0);
+
+            useEffect(() => {
+                if (user) {
+                    const feedbackRef = db.ref('feedbacks');
+                    feedbackRef.on('value', (snapshot) => {
+                        const data = snapshot.val();
+                        if (data) {
+                            const count = Object.values(data).filter(f => f.status === 'new').length;
+                            setUnreadCount(count);
+                        }
+                    });
+                }
+            }, [user]);
+
+            const handleLogout = () => {
+                auth.signOut();
+                setUser(null);
+                setCurrentView('form');
+            };
+
+            return (
+                <div className="header">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                            <img 
+                                src="logo.png" 
+                                alt="Logo BVNĐ"
+                                style={{ 
+                                    width: '60px',
+                                    height: 'auto'
+                                }}
+                                onError={(e) => { e.target.style.display = 'none' }}
+                            />
+                            <div>
+                                <h1 style={{ fontSize: '18px', marginBottom: '4px' }}>Quản Lý Góp Ý</h1>
+                                <p style={{ fontSize: '14px', color: '#667eea', margin: 0 }}>Bệnh viện Nhi đồng TP Cần Thơ</p>
+                            </div>
+                        </div>
+                        <div className="header-buttons">
+                            {currentView !== 'qr' && (
+                                <button 
+                                    className="btn btn-secondary btn-icon"
+                                    onClick={() => setCurrentView('qr')}
+                                    title="Tạo QR Code"
+                                >
+                                    📱
+                                </button>
+                            )}
+                            {currentView !== 'admin' && (
+                                <button 
+                                    className="btn btn-primary btn-icon"
+                                    onClick={() => setCurrentView('admin')}
+                                >
+                                    📊
+                                    {unreadCount > 0 && (
+                                        <span className="notification-badge">{unreadCount}</span>
+                                    )}
+                                </button>
+                            )}
+                            {currentView !== 'reports' && (
+                                <button 
+                                    className="btn btn-warning btn-icon"
+                                    onClick={() => setCurrentView('reports')}
+                                    title="Xuất Báo Cáo"
+                                >
+                                    📄
+                                </button>
+                            )}
+                            <button 
+                                className="btn btn-danger btn-icon"
+                                onClick={handleLogout}
+                            >
+                                🚪
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // QR Generator Component
+        function QRGenerator() {
+            const qrRef = useRef(null);
+            const [qrGenerated, setQrGenerated] = useState(false);
+
+            useEffect(() => {
+                if (!qrGenerated && qrRef.current) {
+                    qrRef.current.innerHTML = '';
+                    
+                    const currentUrl = window.location.href.split('?')[0];
+                    
+                    new QRCode(qrRef.current, {
+                        text: currentUrl,
+                        width: 256,
+                        height: 256,
+                        colorDark: "#667eea",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+                    
+                    setQrGenerated(true);
+                }
+            }, [qrGenerated]);
+
+            const handleDownload = () => {
+                const canvas = qrRef.current.querySelector('canvas');
+                if (canvas) {
+                    const url = canvas.toDataURL('image/png');
+                    const link = document.createElement('a');
+                    link.download = 'QR-Gop-Y-BVND-CanTho.png';
+                    link.href = url;
+                    link.click();
+                }
+            };
+
+            const handlePrint = () => {
+                window.print();
+            };
+
+            const handleCopyLink = () => {
+                const url = window.location.href.split('?')[0];
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('✅ Đã copy link vào clipboard!');
+                });
+            };
+
+            return (
+                <div className="qr-section">
+                    <div style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '20px',
+                        marginBottom: '20px',
+                        padding: '15px',
+                        background: 'white',
+                        borderRadius: '12px'
+                    }}>
+                        <img 
+                            src="logo.png" 
+                            alt="Logo BVNĐ"
+                            style={{ 
+                                width: '100px',
+                                height: 'auto',
+                                flexShrink: 0
+                            }}
+                            onError={(e) => { e.target.style.display = 'none' }}
+                        />
+                        <div style={{ flex: 1, textAlign: 'left' }}>
+                            <h2 style={{ marginBottom: '8px', fontSize: '20px', color: '#667eea' }}>📱 QR Code Góp Ý Khách Hàng</h2>
+                            <h3 style={{ fontSize: '16px', color: '#2d3748', margin: 0 }}>Bệnh viện Nhi đồng TP Cần Thơ</h3>
+                        </div>
+                    </div>
+                    <p>
+                        Khách hàng quét mã QR này để gửi góp ý trực tiếp.<br/>
+                        <strong>Không cần đăng nhập - Tối ưu cho điện thoại</strong>
+                    </p>
+                    
+                    <div ref={qrRef} id="qrcode"></div>
+                    
+                    <div className="qr-actions">
+                        <button className="btn btn-primary" onClick={handleDownload}>
+                            💾 Tải QR Code
+                        </button>
+                        <button className="btn btn-secondary" onClick={handlePrint}>
+                            🖨️ In QR Code
+                        </button>
+                        <button className="btn btn-warning" onClick={handleCopyLink}>
+                            📋 Copy Link
+                        </button>
+                    </div>
+
+                    <div style={{ marginTop: '30px', padding: '20px', background: '#f7fafc', borderRadius: '12px', textAlign: 'left' }}>
+                        <h3 style={{ color: '#667eea', marginBottom: '15px', fontSize: '16px' }}>
+                            💡 Hướng dẫn:
+                        </h3>
+                        <ol style={{ color: '#718096', lineHeight: '2', paddingLeft: '20px' }}>
+                            <li>Tải và in QR code</li>
+                            <li>Dán tại quầy lễ tân, phòng khám</li>
+                            <li>Khách hàng quét mã bằng camera</li>
+                            <li>Form góp ý tự động mở</li>
+                            <li>Khách không cần đăng nhập!</li>
+                        </ol>
+                        
+                        <div style={{ marginTop: '20px', padding: '15px', background: 'white', borderRadius: '8px', border: '2px solid #667eea' }}>
+                            <strong style={{ color: '#667eea' }}>🤖 Thông báo Telegram:</strong>
+                            <p style={{ marginTop: '8px', fontSize: '14px' }}>
+                                Khi có góp ý mới, bạn sẽ nhận thông báo <strong>TỨC THÌ</strong> qua Telegram Bot!<br/>
+                                ⚡ Nhanh chóng (3-5 giây)<br/>
+                                🔔 Tin cậy 100%<br/>
+                                📱 Tap là mở app ngay
+                            </p>
+                        </div>
+
+                        <div style={{ marginTop: '15px', padding: '15px', background: '#fffaf0', borderRadius: '8px', border: '2px solid #ed8936' }}>
+                            <strong style={{ color: '#ed8936' }}>📧 Email Backup:</strong>
+                            <p style={{ marginTop: '8px', fontSize: '14px' }}>
+                                Email sẽ được gửi tới: <strong>kieuviettienhung@gmail.com</strong><br/>
+                                (để lưu trữ và tham khảo sau)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Feedback Form Component
+        function FeedbackForm() {
+            const [formData, setFormData] = useState({
+                name: '',
+                phone: '',
+                content: '',
+                satisfaction: '',
+                room: ''
+            });
+            const [submitting, setSubmitting] = useState(false);
+            const [success, setSuccess] = useState(false);
+
+            const satisfactionOptions = [
+                { value: 'happy', emoji: '😊', label: 'Hài Lòng', class: 'happy' },
+                { value: 'neutral', emoji: '😐', label: 'Bình Thường', class: 'neutral' },
+                { value: 'sad', emoji: '😞', label: 'Không Hài Lòng', class: 'sad' }
+            ];
+
+            // Initialize EmailJS
+            useEffect(() => {
+                if (EMAILJS_PUBLIC_KEY !== 'THAY_PUBLIC_KEY_CUA_BAN') {
+                    emailjs.init(EMAILJS_PUBLIC_KEY);
+                }
+            }, []);
+
+            const sendTelegramNotification = async (feedbackData) => {
+                // Check if Telegram is configured
+                if (TELEGRAM_BOT_TOKEN === 'THAY_BOT_TOKEN_CUA_BAN') {
+                    console.log('Telegram chưa được cấu hình');
+                    return;
+                }
+
+                try {
+                    // Determine satisfaction emoji and text
+                    let satisfactionEmoji = '';
+                    let satisfactionText = '';
+                    
+                    switch(feedbackData.satisfaction) {
+                        case 'happy':
+                            satisfactionEmoji = '😊';
+                            satisfactionText = 'HÀI LÒNG';
+                            break;
+                        case 'neutral':
+                            satisfactionEmoji = '😐';
+                            satisfactionText = 'BÌNH THƯỜNG';
+                            break;
+                        case 'sad':
+                            satisfactionEmoji = '😞';
+                            satisfactionText = 'KHÔNG HÀI LÒNG';
+                            break;
+                    }
+
+                    // Format message
+                    const message = `🆕 <b>GÓP Ý MỚI</b>
+
+👤 <b>Họ tên:</b> ${feedbackData.name || 'Khách hàng'}
+📱 <b>SĐT:</b> ${feedbackData.phone || 'Không cung cấp'}
+🏥 <b>Phòng:</b> ${feedbackData.room}
+${satisfactionEmoji} <b>Đánh giá:</b> ${satisfactionText}
+🕒 <b>Thời gian:</b> ${new Date().toLocaleString('vi-VN')}
+
+💬 <b>Nội dung:</b>
+${feedbackData.content}
+
+━━━━━━━━━━━━━━━━━
+<a href="${window.location.origin}">📊 Xem chi tiết trên Dashboard</a>`;
+
+                    // Send to Telegram
+                    const telegramApiUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+                    
+                    const response = await fetch(telegramApiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            chat_id: TELEGRAM_CHAT_ID,
+                            text: message,
+                            parse_mode: 'HTML',
+                            disable_web_page_preview: false
+                        })
+                    });
+
+                    if (response.ok) {
+                        console.log('✅ Telegram notification sent successfully!');
+                    } else {
+                        const error = await response.json();
+                        console.error('❌ Telegram API error:', error);
+                    }
+                } catch (error) {
+                    console.error('❌ Failed to send Telegram notification:', error);
+                    // Don't show error to user - notification is just a bonus
+                }
+            };
+
+            const sendEmailNotification = async (feedbackData) => {
+                // Check if EmailJS is configured
+                if (EMAILJS_PUBLIC_KEY === 'THAY_PUBLIC_KEY_CUA_BAN') {
+                    console.log('EmailJS chưa được cấu hình');
+                    return;
+                }
+
+                try {
+                    // Determine satisfaction text and color
+                    let satisfactionText = '';
+                    let satisfactionColor = '';
+                    
+                    switch(feedbackData.satisfaction) {
+                        case 'happy':
+                            satisfactionText = '😊 HÀI LÒNG';
+                            satisfactionColor = '#48bb78';
+                            break;
+                        case 'neutral':
+                            satisfactionText = '😐 BÌNH THƯỜNG';
+                            satisfactionColor = '#ed8936';
+                            break;
+                        case 'sad':
+                            satisfactionText = '😞 KHÔNG HÀI LÒNG';
+                            satisfactionColor = '#f56565';
+                            break;
+                    }
+
+                    const templateParams = {
+                        from_name: feedbackData.name || 'Khách hàng',
+                        phone: feedbackData.phone || 'Không cung cấp',
+                        room_number: feedbackData.room,
+                        message: feedbackData.content,
+                        satisfaction_text: satisfactionText,
+                        satisfaction_color: satisfactionColor,
+                        timestamp: new Date().toLocaleString('vi-VN', {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        }),
+                        to_email: 'kieuviettienhung@gmail.com'
+                    };
+
+                    await emailjs.send(
+                        EMAILJS_SERVICE_ID,
+                        EMAILJS_TEMPLATE_ID,
+                        templateParams
+                    );
+
+                    console.log('✅ Email notification sent successfully!');
+                } catch (error) {
+                    console.error('❌ Failed to send email notification:', error);
+                    // Don't show error to user - email is just a notification
+                }
+            };
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                
+                if (!formData.content || !formData.satisfaction || !formData.room) {
+                    alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
+                    return;
+                }
+
+                setSubmitting(true);
+
+                try {
+                    const feedbackData = {
+                        name: formData.name || 'Khách hàng',
+                        phone: formData.phone || 'Không cung cấp',
+                        content: formData.content,
+                        satisfaction: formData.satisfaction,
+                        room: formData.room,
+                        status: 'new',
+                        createdAt: new Date().toISOString()
+                    };
+
+                    await db.ref('feedbacks').push(feedbackData);
+
+                    // Send Telegram notification (fast - priority)
+                    await sendTelegramNotification(feedbackData);
+
+                    // Send email notification (backup)
+                    await sendEmailNotification(feedbackData);
+
+                    setSuccess(true);
+                    setFormData({
+                        name: '',
+                        phone: '',
+                        content: '',
+                        satisfaction: '',
+                        room: ''
+                    });
+
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                    setTimeout(() => setSuccess(false), 5000);
+                } catch (error) {
+                    console.error('Error submitting feedback:', error);
+                    alert('Có lỗi xảy ra. Vui lòng thử lại!');
+                } finally {
+                    setSubmitting(false);
+                }
+            };
+
+            return (
+                <div className="card">
+                    {success && (
+                        <div className="success-message">
+                            <h3>✅ Gửi Thành Công!</h3>
+                            <p>Cảm ơn bạn đã gửi ý kiến. Chúng tôi sẽ xem xét và phản hồi sớm nhất!</p>
+                        </div>
+                    )}
+
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-group">
+                            <label>👤 Họ và Tên (Tùy chọn)</label>
+                            <input
+                                type="text"
+                                placeholder="Nhập họ tên của bạn"
+                                value={formData.name}
+                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label>📱 Số Điện Thoại (Tùy chọn)</label>
+                            <input
+                                type="tel"
+                                placeholder="Nhập số điện thoại"
+                                value={formData.phone}
+                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                            />
+                            <p style={{ fontSize: '13px', color: '#718096', marginTop: '5px', fontStyle: 'italic' }}>
+                                💡 Để giúp Bệnh viện phản hồi sớm nhất
+                            </p>
+                        </div>
+
+                        <div className="form-group">
+                            <label>🏥 Số phòng khám/Buồng bệnh <span className="required">*</span></label>
+                            <input
+                                type="text"
+                                placeholder="Ví dụ: Phòng 5, Buồng 102, P3..."
+                                value={formData.room}
+                                onChange={(e) => setFormData({ ...formData, room: e.target.value })}
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label>😊 Mức Độ Hài Lòng <span className="required">*</span></label>
+                            <div className="satisfaction-options">
+                                {satisfactionOptions.map(option => (
+                                    <div
+                                        key={option.value}
+                                        className={`satisfaction-option ${option.class} ${formData.satisfaction === option.value ? 'selected' : ''}`}
+                                        onClick={() => setFormData({ ...formData, satisfaction: option.value })}
+                                    >
+                                        <div className="satisfaction-emoji">{option.emoji}</div>
+                                        <div className="satisfaction-label">{option.label}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label>💬 Nội Dung Góp Ý <span className="required">*</span></label>
+                            <textarea
+                                placeholder="Nhập nội dung góp ý của bạn..."
+                                value={formData.content}
+                                onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                                required
+                            />
+                        </div>
+
+                        <button 
+                            type="submit" 
+                            className="btn btn-primary" 
+                            style={{ width: '100%', fontSize: '18px', padding: '16px' }}
+                            disabled={submitting}
+                        >
+                            {submitting ? '⏳ Đang Gửi...' : '📤 Gửi Góp Ý'}
+                        </button>
+                    </form>
+                </div>
+            );
+        }
+
+        // Admin Dashboard Component (simplified - copy from previous version)
+        function AdminDashboard() {
+            const [feedbacks, setFeedbacks] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [filters, setFilters] = useState({
+                satisfaction: '',
+                room: '',
+                status: '',
+                search: ''
+            });
+            const [stats, setStats] = useState({
+                total: 0,
+                happy: 0,
+                neutral: 0,
+                sad: 0,
+                new: 0
+            });
+            const [responseModal, setResponseModal] = useState({
+                show: false,
+                feedbackId: null,
+                response: ''
+            });
+            const [transferModal, setTransferModal] = useState({
+                show: false,
+                feedbackId: null,
+                assignTo: '',
+                reason: ''
+            });
+
+            useEffect(() => {
+                const feedbackRef = db.ref('feedbacks');
+                feedbackRef.on('value', (snapshot) => {
+                    const data = snapshot.val();
+                    if (data) {
+                        const feedbackList = Object.entries(data).map(([id, feedback]) => ({
+                            id,
+                            ...feedback
+                        })).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                        
+                        setFeedbacks(feedbackList);
+                        
+                        const newStats = {
+                            total: feedbackList.length,
+                            happy: feedbackList.filter(f => f.satisfaction === 'happy').length,
+                            neutral: feedbackList.filter(f => f.satisfaction === 'neutral').length,
+                            sad: feedbackList.filter(f => f.satisfaction === 'sad').length,
+                            new: feedbackList.filter(f => f.status === 'new').length
+                        };
+                        setStats(newStats);
+                    }
+                    setLoading(false);
+                });
+
+                return () => feedbackRef.off();
+            }, []);
+
+            const updateStatus = async (feedbackId, newStatus) => {
+                try {
+                    const updates = {
+                        status: newStatus
+                    };
+                    
+                    // Add timestamp when status changes
+                    if (newStatus === 'processing') {
+                        updates.processingAt = new Date().toISOString();
+                    } else if (newStatus === 'resolved') {
+                        updates.resolvedAt = new Date().toISOString();
+                    }
+                    
+                    await db.ref(`feedbacks/${feedbackId}`).update(updates);
+                } catch (error) {
+                    console.error('Error updating status:', error);
+                    alert('Có lỗi xảy ra!');
+                }
+            };
+
+            const openResponseModal = (feedbackId) => {
+                const feedback = feedbacks.find(f => f.id === feedbackId);
+                setResponseModal({
+                    show: true,
+                    feedbackId: feedbackId,
+                    response: feedback.response || ''
+                });
+            };
+
+            const closeResponseModal = () => {
+                setResponseModal({
+                    show: false,
+                    feedbackId: null,
+                    response: ''
+                });
+            };
+
+            const saveResponse = async () => {
+                if (!responseModal.response.trim()) {
+                    alert('Vui lòng nhập nội dung phản hồi!');
+                    return;
+                }
+
+                try {
+                    await db.ref(`feedbacks/${responseModal.feedbackId}`).update({
+                        response: responseModal.response,
+                        responseAt: new Date().toISOString(),
+                        status: 'resolved',
+                        resolvedAt: new Date().toISOString()
+                    });
+                    closeResponseModal();
+                } catch (error) {
+                    console.error('Error saving response:', error);
+                    alert('Có lỗi xảy ra!');
+                }
+            };
+
+            const openTransferModal = (feedbackId) => {
+                setTransferModal({
+                    show: true,
+                    feedbackId: feedbackId,
+                    assignTo: '',
+                    reason: ''
+                });
+            };
+
+            const closeTransferModal = () => {
+                setTransferModal({
+                    show: false,
+                    feedbackId: null,
+                    assignTo: '',
+                    reason: ''
+                });
+            };
+
+            const saveTransfer = async () => {
+                if (!transferModal.assignTo.trim()) {
+                    alert('Vui lòng nhập tên người được chuyển!');
+                    return;
+                }
+                if (!transferModal.reason.trim()) {
+                    alert('Vui lòng nhập lý do chuyển!');
+                    return;
+                }
+
+                try {
+                    const feedback = feedbacks.find(f => f.id === transferModal.feedbackId);
+                    const transferHistory = feedback.transferHistory || [];
+                    
+                    transferHistory.push({
+                        to: transferModal.assignTo,
+                        reason: transferModal.reason,
+                        transferredAt: new Date().toISOString()
+                    });
+
+                    await db.ref(`feedbacks/${transferModal.feedbackId}`).update({
+                        assignTo: transferModal.assignTo,
+                        transferHistory: transferHistory,
+                        lastTransferAt: new Date().toISOString()
+                    });
+                    
+                    closeTransferModal();
+                } catch (error) {
+                    console.error('Error transferring:', error);
+                    alert('Có lỗi xảy ra!');
+                }
+            };
+
+            const deleteFeedback = async (feedbackId) => {
+                if (confirm('Bạn có chắc muốn xóa góp ý này?')) {
+                    try {
+                        await db.ref(`feedbacks/${feedbackId}`).remove();
+                    } catch (error) {
+                        console.error('Error deleting feedback:', error);
+                        alert('Có lỗi xảy ra!');
+                    }
+                }
+            };
+
+            const filteredFeedbacks = feedbacks.filter(feedback => {
+                if (filters.satisfaction && feedback.satisfaction !== filters.satisfaction) return false;
+                if (filters.room && !feedback.room.toLowerCase().includes(filters.room.toLowerCase())) return false;
+                if (filters.status && feedback.status !== filters.status) return false;
+                if (filters.search) {
+                    const searchLower = filters.search.toLowerCase();
+                    return (
+                        feedback.content.toLowerCase().includes(searchLower) ||
+                        feedback.name.toLowerCase().includes(searchLower) ||
+                        feedback.phone.includes(searchLower)
+                    );
+                }
+                return true;
+            });
+
+            if (loading) {
+                return (
+                    <div className="loading">
+                        <div className="spinner"></div>
+                        <p>Đang tải...</p>
+                    </div>
+                );
+            }
+
+            return (
+                <div>
+                    <div className="stats-grid">
+                        <div className="stat-card">
+                            <div className="stat-number">{stats.total}</div>
+                            <div className="stat-label">Tổng Góp Ý</div>
+                        </div>
+                        <div className="stat-card">
+                            <div className="stat-number" style={{ color: '#48bb78' }}>{stats.happy}</div>
+                            <div className="stat-label">Hài Lòng</div>
+                        </div>
+                        <div className="stat-card">
+                            <div className="stat-number" style={{ color: '#ed8936' }}>{stats.neutral}</div>
+                            <div className="stat-label">Bình Thường</div>
+                        </div>
+                        <div className="stat-card">
+                            <div className="stat-number" style={{ color: '#f56565' }}>{stats.sad}</div>
+                            <div className="stat-label">Không Hài Lòng</div>
+                        </div>
+                    </div>
+
+                    <div className="filters">
+                        <h3>🔍 Bộ Lọc</h3>
+                        <div className="filters-grid">
+                            <div className="form-group" style={{ marginBottom: 0 }}>
+                                <label>Mức độ</label>
+                                <select
+                                    value={filters.satisfaction}
+                                    onChange={(e) => setFilters({ ...filters, satisfaction: e.target.value })}
+                                >
+                                    <option value="">Tất cả</option>
+                                    <option value="happy">Hài lòng</option>
+                                    <option value="neutral">Bình thường</option>
+                                    <option value="sad">Không hài lòng</option>
+                                </select>
+                            </div>
+                            <div className="form-group" style={{ marginBottom: 0 }}>
+                                <label>Phòng/Buồng</label>
+                                <input
+                                    type="text"
+                                    placeholder="Tìm theo số phòng/buồng..."
+                                    value={filters.room}
+                                    onChange={(e) => setFilters({ ...filters, room: e.target.value })}
+                                />
+                            </div>
+                            <div className="form-group" style={{ marginBottom: 0 }}>
+                                <label>Trạng thái</label>
+                                <select
+                                    value={filters.status}
+                                    onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+                                >
+                                    <option value="">Tất cả</option>
+                                    <option value="new">Chưa xem</option>
+                                    <option value="processing">Đang xử lý</option>
+                                    <option value="resolved">Đã giải quyết</option>
+                                </select>
+                            </div>
+                            <div className="form-group" style={{ marginBottom: 0 }}>
+                                <label>Tìm kiếm</label>
+                                <input
+                                    type="text"
+                                    placeholder="Tên, SĐT, nội dung..."
+                                    value={filters.search}
+                                    onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="card">
+                        <h3 style={{ marginBottom: '15px', color: '#667eea', fontSize: '16px' }}>
+                            📋 Góp Ý ({filteredFeedbacks.length})
+                        </h3>
+                        
+                        {filteredFeedbacks.length === 0 ? (
+                            <div className="empty-state">
+                                <div className="empty-state-icon">📭</div>
+                                <h3>Không Có Góp Ý</h3>
+                                <p>Chưa có góp ý nào phù hợp</p>
+                            </div>
+                        ) : (
+                            <div className="feedback-list">
+                                {filteredFeedbacks.map(feedback => (
+                                    <div key={feedback.id} className={`feedback-item ${feedback.satisfaction}`}>
+                                        <div className="feedback-meta">
+                                            <span>👤 <strong>{feedback.name}</strong></span>
+                                            <span>📱 {feedback.phone}</span>
+                                            <span>🏥 {feedback.room}</span>
+                                            <span>🕒 {new Date(feedback.createdAt).toLocaleString('vi-VN', { 
+                                                day: '2-digit', 
+                                                month: '2-digit', 
+                                                hour: '2-digit', 
+                                                minute: '2-digit' 
+                                            })}</span>
+                                        </div>
+                                        
+                                        <div>
+                                            <span className={`satisfaction-badge ${feedback.satisfaction}`}>
+                                                {feedback.satisfaction === 'happy' && '😊 Hài Lòng'}
+                                                {feedback.satisfaction === 'neutral' && '😐 Bình Thường'}
+                                                {feedback.satisfaction === 'sad' && '😞 Không Hài Lòng'}
+                                            </span>
+                                            <span className={`status-badge status-${feedback.status}`}>
+                                                {feedback.status === 'new' && '🆕 Mới'}
+                                                {feedback.status === 'processing' && '⏳ Xử lý'}
+                                                {feedback.status === 'resolved' && '✅ Xong'}
+                                            </span>
+                                        </div>
+
+                                        <div className="feedback-content">
+                                            <strong>💬 Nội dung:</strong>
+                                            <p>{feedback.content}</p>
+                                            
+                                            {(feedback.processingAt || feedback.resolvedAt) && (
+                                                <div style={{ 
+                                                    marginTop: '10px', 
+                                                    padding: '8px', 
+                                                    background: '#f7fafc', 
+                                                    borderRadius: '6px',
+                                                    fontSize: '13px',
+                                                    color: '#718096'
+                                                }}>
+                                                    {feedback.processingAt && (
+                                                        <div>⏳ Bắt đầu xử lý: {new Date(feedback.processingAt).toLocaleString('vi-VN')}</div>
+                                                    )}
+                                                    {feedback.resolvedAt && (
+                                                        <div>✅ Hoàn tất: {new Date(feedback.resolvedAt).toLocaleString('vi-VN')}</div>
+                                                    )}
+                                                    {feedback.processingAt && feedback.resolvedAt && (
+                                                        <div style={{ marginTop: '4px', fontWeight: '600', color: '#667eea' }}>
+                                                            ⚡ Thời gian xử lý: {Math.round((new Date(feedback.resolvedAt) - new Date(feedback.processingAt)) / (1000 * 60))} phút
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
+                                            {feedback.assignTo && (
+                                                <div style={{ 
+                                                    marginTop: '10px', 
+                                                    padding: '10px', 
+                                                    background: '#fff3cd', 
+                                                    borderRadius: '6px',
+                                                    borderLeft: '4px solid #ffc107'
+                                                }}>
+                                                    <strong style={{ color: '#856404' }}>🔄 Được chuyển cho:</strong>
+                                                    <p style={{ margin: '5px 0 0 0', color: '#2d3748', fontWeight: '600' }}>{feedback.assignTo}</p>
+                                                    {feedback.transferHistory && feedback.transferHistory.length > 0 && (
+                                                        <div style={{ fontSize: '13px', color: '#718096', marginTop: '8px' }}>
+                                                            <strong>Lịch sử chuyển:</strong>
+                                                            {feedback.transferHistory.map((transfer, index) => (
+                                                                <div key={index} style={{ marginTop: '5px', paddingLeft: '10px', borderLeft: '2px solid #ddd' }}>
+                                                                    <div>→ {transfer.to}</div>
+                                                                    <div style={{ fontSize: '12px', fontStyle: 'italic' }}>
+                                                                        Lý do: {transfer.reason}
+                                                                    </div>
+                                                                    <div style={{ fontSize: '11px' }}>
+                                                                        🕒 {new Date(transfer.transferredAt).toLocaleString('vi-VN')}
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
+                                            {feedback.response && (
+                                                <div style={{ 
+                                                    marginTop: '10px', 
+                                                    padding: '10px', 
+                                                    background: '#e6ffed', 
+                                                    borderRadius: '6px',
+                                                    borderLeft: '4px solid #48bb78'
+                                                }}>
+                                                    <strong style={{ color: '#2d8659' }}>📝 Đã phản hồi:</strong>
+                                                    <p style={{ margin: '5px 0 0 0', color: '#2d3748' }}>{feedback.response}</p>
+                                                    {feedback.responseAt && (
+                                                        <div style={{ fontSize: '12px', color: '#718096', marginTop: '5px' }}>
+                                                            🕒 {new Date(feedback.responseAt).toLocaleString('vi-VN')}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div className="feedback-actions">
+                                            {feedback.status === 'new' && (
+                                                <>
+                                                    <button
+                                                        className="btn btn-warning"
+                                                        onClick={() => updateStatus(feedback.id, 'processing')}
+                                                    >
+                                                        ⏳ Xử lý
+                                                    </button>
+                                                    <button
+                                                        className="btn btn-secondary"
+                                                        onClick={() => openTransferModal(feedback.id)}
+                                                    >
+                                                        🔄 Chuyển
+                                                    </button>
+                                                </>
+                                            )}
+                                            {feedback.status === 'processing' && (
+                                                <>
+                                                    <button
+                                                        className="btn btn-success"
+                                                        onClick={() => openResponseModal(feedback.id)}
+                                                    >
+                                                        💬 Phản hồi & Kết thúc
+                                                    </button>
+                                                    <button
+                                                        className="btn btn-secondary"
+                                                        onClick={() => openTransferModal(feedback.id)}
+                                                    >
+                                                        🔄 Chuyển
+                                                    </button>
+                                                </>
+                                            )}
+                                            {feedback.status === 'resolved' && (
+                                                <>
+                                                    <button
+                                                        className="btn btn-primary"
+                                                        onClick={() => openResponseModal(feedback.id)}
+                                                        style={{ fontSize: '14px' }}
+                                                    >
+                                                        ✏️ Sửa phản hồi
+                                                    </button>
+                                                    <button
+                                                        className="btn btn-warning"
+                                                        onClick={() => updateStatus(feedback.id, 'processing')}
+                                                    >
+                                                        ↩️ Mở lại
+                                                    </button>
+                                                </>
+                                            )}
+                                            <button
+                                                className="btn btn-danger"
+                                                onClick={() => deleteFeedback(feedback.id)}
+                                            >
+                                                🗑️
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Response Modal */}
+                    {responseModal.show && (
+                        <div style={{
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            background: 'rgba(0,0,0,0.5)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            zIndex: 1000,
+                            padding: '20px'
+                        }}>
+                            <div style={{
+                                background: 'white',
+                                borderRadius: '12px',
+                                padding: '30px',
+                                maxWidth: '600px',
+                                width: '100%',
+                                boxShadow: '0 10px 40px rgba(0,0,0,0.2)'
+                            }}>
+                                <h2 style={{ 
+                                    color: '#667eea', 
+                                    marginBottom: '20px',
+                                    fontSize: '22px'
+                                }}>
+                                    💬 Phản Hồi Khách Hàng
+                                </h2>
+                                
+                                <div style={{ marginBottom: '20px' }}>
+                                    <label style={{ 
+                                        display: 'block', 
+                                        marginBottom: '10px',
+                                        fontWeight: '600',
+                                        color: '#2d3748'
+                                    }}>
+                                        Nội dung phản hồi: <span style={{ color: '#f56565' }}>*</span>
+                                    </label>
+                                    <textarea
+                                        value={responseModal.response}
+                                        onChange={(e) => setResponseModal({
+                                            ...responseModal,
+                                            response: e.target.value
+                                        })}
+                                        placeholder="Nhập nội dung đã phản hồi cho khách hàng..."
+                                        style={{
+                                            width: '100%',
+                                            minHeight: '150px',
+                                            padding: '12px',
+                                            borderRadius: '8px',
+                                            border: '2px solid #e2e8f0',
+                                            fontSize: '15px',
+                                            fontFamily: 'inherit',
+                                            resize: 'vertical'
+                                        }}
+                                    />
+                                    <div style={{ 
+                                        fontSize: '13px', 
+                                        color: '#718096',
+                                        marginTop: '8px'
+                                    }}>
+                                        💡 Ghi rõ bạn đã giải quyết như thế nào, đã làm gì để khắc phục
+                                    </div>
+                                </div>
+
+                                <div style={{ 
+                                    display: 'flex', 
+                                    gap: '10px',
+                                    justifyContent: 'flex-end'
+                                }}>
+                                    <button
+                                        className="btn btn-secondary"
+                                        onClick={closeResponseModal}
+                                        style={{ minWidth: '100px' }}
+                                    >
+                                        ❌ Hủy
+                                    </button>
+                                    <button
+                                        className="btn btn-success"
+                                        onClick={saveResponse}
+                                        style={{ minWidth: '150px' }}
+                                    >
+                                        ✅ Lưu & Kết thúc
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Transfer Modal */}
+                    {transferModal.show && (
+                        <div style={{
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            background: 'rgba(0,0,0,0.5)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            zIndex: 1000,
+                            padding: '20px'
+                        }}>
+                            <div style={{
+                                background: 'white',
+                                borderRadius: '12px',
+                                padding: '30px',
+                                maxWidth: '600px',
+                                width: '100%',
+                                boxShadow: '0 10px 40px rgba(0,0,0,0.2)'
+                            }}>
+                                <h2 style={{ 
+                                    color: '#f59e0b', 
+                                    marginBottom: '20px',
+                                    fontSize: '22px'
+                                }}>
+                                    🔄 Chuyển Xử Lý
+                                </h2>
+                                
+                                <div style={{ marginBottom: '20px' }}>
+                                    <label style={{ 
+                                        display: 'block', 
+                                        marginBottom: '10px',
+                                        fontWeight: '600',
+                                        color: '#2d3748'
+                                    }}>
+                                        Chuyển cho: <span style={{ color: '#f56565' }}>*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={transferModal.assignTo}
+                                        onChange={(e) => setTransferModal({
+                                            ...transferModal,
+                                            assignTo: e.target.value
+                                        })}
+                                        placeholder="Nhập tên người nhận (VD: BS. Nguyễn Văn A, Khoa Nội...)"
+                                        style={{
+                                            width: '100%',
+                                            padding: '12px',
+                                            borderRadius: '8px',
+                                            border: '2px solid #e2e8f0',
+                                            fontSize: '15px'
+                                        }}
+                                    />
+                                </div>
+
+                                <div style={{ marginBottom: '20px' }}>
+                                    <label style={{ 
+                                        display: 'block', 
+                                        marginBottom: '10px',
+                                        fontWeight: '600',
+                                        color: '#2d3748'
+                                    }}>
+                                        Lý do chuyển: <span style={{ color: '#f56565' }}>*</span>
+                                    </label>
+                                    <textarea
+                                        value={transferModal.reason}
+                                        onChange={(e) => setTransferModal({
+                                            ...transferModal,
+                                            reason: e.target.value
+                                        })}
+                                        placeholder="Nhập lý do chuyển xử lý..."
+                                        style={{
+                                            width: '100%',
+                                            minHeight: '120px',
+                                            padding: '12px',
+                                            borderRadius: '8px',
+                                            border: '2px solid #e2e8f0',
+                                            fontSize: '15px',
+                                            fontFamily: 'inherit',
+                                            resize: 'vertical'
+                                        }}
+                                    />
+                                    <div style={{ 
+                                        fontSize: '13px', 
+                                        color: '#718096',
+                                        marginTop: '8px'
+                                    }}>
+                                        💡 VD: "Thuộc chuyên môn của khoa Nội", "Cần bác sĩ chuyên khoa xử lý"
+                                    </div>
+                                </div>
+
+                                <div style={{ 
+                                    display: 'flex', 
+                                    gap: '10px',
+                                    justifyContent: 'flex-end'
+                                }}>
+                                    <button
+                                        className="btn btn-secondary"
+                                        onClick={closeTransferModal}
+                                        style={{ minWidth: '100px' }}
+                                    >
+                                        ❌ Hủy
+                                    </button>
+                                    <button
+                                        className="btn btn-warning"
+                                        onClick={saveTransfer}
+                                        style={{ minWidth: '120px' }}
+                                    >
+                                        🔄 Chuyển
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        // Reports Component
+        function Reports() {
+            const [feedbacks, setFeedbacks] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [dateRange, setDateRange] = useState({
+                from: '',
+                to: ''
+            });
+            const [stats, setStats] = useState({
+                total: 0,
+                happy: 0,
+                neutral: 0,
+                sad: 0,
+                new: 0,
+                processing: 0,
+                resolved: 0
+            });
+
+            useEffect(() => {
+                const feedbackRef = db.ref('feedbacks');
+                feedbackRef.on('value', (snapshot) => {
+                    const data = snapshot.val();
+                    if (data) {
+                        const feedbackList = Object.entries(data).map(([id, feedback]) => ({
+                            id,
+                            ...feedback
+                        })).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                        
+                        setFeedbacks(feedbackList);
+                        
+                        const newStats = {
+                            total: feedbackList.length,
+                            happy: feedbackList.filter(f => f.satisfaction === 'happy').length,
+                            neutral: feedbackList.filter(f => f.satisfaction === 'neutral').length,
+                            sad: feedbackList.filter(f => f.satisfaction === 'sad').length,
+                            new: feedbackList.filter(f => f.status === 'new').length,
+                            processing: feedbackList.filter(f => f.status === 'processing').length,
+                            resolved: feedbackList.filter(f => f.status === 'resolved').length
+                        };
+                        setStats(newStats);
+                    }
+                    setLoading(false);
+                });
+
+                return () => feedbackRef.off();
+            }, []);
+
+            const getFilteredFeedbacks = () => {
+                if (!dateRange.from && !dateRange.to) {
+                    return feedbacks;
+                }
+
+                return feedbacks.filter(feedback => {
+                    const feedbackDate = new Date(feedback.createdAt);
+                    const fromDate = dateRange.from ? new Date(dateRange.from) : null;
+                    const toDate = dateRange.to ? new Date(dateRange.to + 'T23:59:59') : null;
+
+                    if (fromDate && feedbackDate < fromDate) return false;
+                    if (toDate && feedbackDate > toDate) return false;
+                    return true;
+                });
+            };
+
+            const exportToExcel = () => {
+                const filteredData = getFilteredFeedbacks();
+                
+                // Prepare data for Excel
+                const excelData = filteredData.map((feedback, index) => ({
+                    'STT': index + 1,
+                    'Ngày giờ nhận': new Date(feedback.createdAt).toLocaleString('vi-VN'),
+                    'Họ tên': feedback.name || 'Không có',
+                    'Số điện thoại': feedback.phone || 'Không cung cấp',
+                    'Phòng/Buồng': feedback.room,
+                    'Mức độ hài lòng': feedback.satisfaction === 'happy' ? 'Hài lòng' : 
+                                       feedback.satisfaction === 'neutral' ? 'Bình thường' : 'Không hài lòng',
+                    'Nội dung góp ý': feedback.content,
+                    'Trạng thái': feedback.status === 'new' ? 'Mới' :
+                                  feedback.status === 'processing' ? 'Đang xử lý' : 'Đã giải quyết',
+                    'Được chuyển cho': feedback.assignTo || '',
+                    'Lý do chuyển': feedback.transferHistory && feedback.transferHistory.length > 0 ? 
+                                    feedback.transferHistory[feedback.transferHistory.length - 1].reason : '',
+                    'Thời gian chuyển': feedback.lastTransferAt ? new Date(feedback.lastTransferAt).toLocaleString('vi-VN') : '',
+                    'Nội dung phản hồi': feedback.response || '',
+                    'Thời gian xử lý': feedback.processingAt ? new Date(feedback.processingAt).toLocaleString('vi-VN') : '',
+                    'Thời gian phản hồi': feedback.responseAt ? new Date(feedback.responseAt).toLocaleString('vi-VN') : '',
+                    'Thời gian hoàn tất': feedback.resolvedAt ? new Date(feedback.resolvedAt).toLocaleString('vi-VN') : ''
+                }));
+
+                // Create workbook
+                const wb = XLSX.utils.book_new();
+                const ws = XLSX.utils.json_to_sheet(excelData);
+
+                // Set column widths
+                ws['!cols'] = [
+                    { wch: 5 },  // STT
+                    { wch: 18 }, // Ngày giờ nhận
+                    { wch: 25 }, // Họ tên
+                    { wch: 15 }, // SĐT
+                    { wch: 15 }, // Phòng
+                    { wch: 18 }, // Mức độ
+                    { wch: 50 }, // Nội dung góp ý
+                    { wch: 15 }, // Trạng thái
+                    { wch: 25 }, // Được chuyển cho
+                    { wch: 40 }, // Lý do chuyển
+                    { wch: 18 }, // Thời gian chuyển
+                    { wch: 50 }, // Nội dung phản hồi
+                    { wch: 18 }, // Thời gian xử lý
+                    { wch: 18 }, // Thời gian phản hồi
+                    { wch: 18 }  // Thời gian hoàn tất
+                ];
+
+                XLSX.utils.book_append_sheet(wb, ws, 'Góp ý khách hàng');
+
+                // Generate filename
+                const fromStr = dateRange.from || 'all';
+                const toStr = dateRange.to || 'all';
+                const filename = `Bao-cao-gop-y_${fromStr}_${toStr}.xlsx`;
+
+                // Download
+                XLSX.writeFile(wb, filename);
+            };
+
+            const exportToPDF = () => {
+                const filteredData = getFilteredFeedbacks();
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                // Add Vietnamese font support (using default fonts with Latin characters)
+                doc.setFont('helvetica');
+
+                // Title
+                doc.setFontSize(18);
+                doc.text('BAO CAO GOP Y KHACH HANG', 105, 20, { align: 'center' });
+                doc.setFontSize(14);
+                doc.text('BENH VIEN NHI DONG TP CAN THO', 105, 30, { align: 'center' });
+                doc.setFontSize(10);
+                doc.text('Cho tre suc khoe - Cho tre tuong lai', 105, 38, { align: 'center' });
+
+                // Date range
+                doc.setFontSize(11);
+                const dateRangeText = dateRange.from && dateRange.to 
+                    ? `Tu ngay: ${dateRange.from} - Den ngay: ${dateRange.to}`
+                    : 'Tat ca thoi gian';
+                doc.text(dateRangeText, 105, 48, { align: 'center' });
+
+                // Statistics
+                doc.setFontSize(12);
+                let yPos = 60;
+                doc.text('THONG KE TONG QUAN:', 20, yPos);
+                yPos += 10;
+                
+                doc.setFontSize(10);
+                doc.text(`Tong so gop y: ${stats.total}`, 30, yPos);
+                yPos += 7;
+                doc.text(`Hai long: ${stats.happy} (${((stats.happy/stats.total)*100).toFixed(1)}%)`, 30, yPos);
+                yPos += 7;
+                doc.text(`Binh thuong: ${stats.neutral} (${((stats.neutral/stats.total)*100).toFixed(1)}%)`, 30, yPos);
+                yPos += 7;
+                doc.text(`Khong hai long: ${stats.sad} (${((stats.sad/stats.total)*100).toFixed(1)}%)`, 30, yPos);
+                yPos += 10;
+                
+                doc.text(`Trang thai - Moi: ${stats.new}, Dang xu ly: ${stats.processing}, Da giai quyet: ${stats.resolved}`, 30, yPos);
+                yPos += 15;
+
+                // Table header
+                doc.setFontSize(11);
+                doc.text('DANH SACH CHI TIET:', 20, yPos);
+                yPos += 10;
+
+                // Add summary of feedbacks (first 20)
+                doc.setFontSize(9);
+                const maxItems = Math.min(filteredData.length, 20);
+                
+                for (let i = 0; i < maxItems; i++) {
+                    const feedback = filteredData[i];
+                    const date = new Date(feedback.createdAt).toLocaleString('vi-VN');
+                    const satisfaction = feedback.satisfaction === 'happy' ? 'Hai long' : 
+                                       feedback.satisfaction === 'neutral' ? 'Binh thuong' : 'Khong hai long';
+                    const status = feedback.status === 'new' ? 'Moi' :
+                                  feedback.status === 'processing' ? 'Dang xu ly' : 'Da giai quyet';
+                    
+                    doc.text(`${i + 1}. ${date} - ${feedback.room} - ${satisfaction} [${status}]`, 25, yPos);
+                    yPos += 5;
+                    
+                    // Content (truncated if too long)
+                    let content = feedback.content;
+                    if (content.length > 80) {
+                        content = content.substring(0, 80) + '...';
+                    }
+                    doc.text(`   "${content}"`, 25, yPos);
+                    yPos += 5;
+                    
+                    // Add timestamps if available
+                    if (feedback.processingAt) {
+                        const processingDate = new Date(feedback.processingAt).toLocaleString('vi-VN');
+                        doc.text(`   Bat dau xu ly: ${processingDate}`, 25, yPos);
+                        yPos += 5;
+                    }
+                    if (feedback.resolvedAt) {
+                        const resolvedDate = new Date(feedback.resolvedAt).toLocaleString('vi-VN');
+                        doc.text(`   Hoan tat: ${resolvedDate}`, 25, yPos);
+                        yPos += 5;
+                    }
+                    
+                    yPos += 3;
+
+                    // Add new page if needed
+                    if (yPos > 270) {
+                        doc.addPage();
+                        yPos = 20;
+                    }
+                }
+
+                if (filteredData.length > 20) {
+                    yPos += 5;
+                    doc.text(`... va ${filteredData.length - 20} gop y khac (xem chi tiet trong file Excel)`, 25, yPos);
+                }
+
+                // Footer
+                doc.setFontSize(8);
+                const pageCount = doc.internal.getNumberOfPages();
+                for (let i = 1; i <= pageCount; i++) {
+                    doc.setPage(i);
+                    doc.text(`Trang ${i}/${pageCount}`, 105, 290, { align: 'center' });
+                    doc.text(`Ngay xuat: ${new Date().toLocaleString('vi-VN')}`, 20, 290);
+                }
+
+                // Save
+                const fromStr = dateRange.from || 'all';
+                const toStr = dateRange.to || 'all';
+                const filename = `Bao-cao-gop-y_${fromStr}_${toStr}.pdf`;
+                doc.save(filename);
+            };
+
+            const setQuickDateRange = (days) => {
+                const today = new Date();
+                const from = new Date();
+                from.setDate(today.getDate() - days);
+                
+                setDateRange({
+                    from: from.toISOString().split('T')[0],
+                    to: today.toISOString().split('T')[0]
+                });
+            };
+
+            if (loading) {
+                return (
+                    <div className="loading">
+                        <div className="spinner"></div>
+                        <p>Đang tải...</p>
+                    </div>
+                );
+            }
+
+            const filteredData = getFilteredFeedbacks();
+            const filteredStats = {
+                total: filteredData.length,
+                happy: filteredData.filter(f => f.satisfaction === 'happy').length,
+                neutral: filteredData.filter(f => f.satisfaction === 'neutral').length,
+                sad: filteredData.filter(f => f.satisfaction === 'sad').length
+            };
+
+            return (
+                <div>
+                    <div className="card">
+                        <div style={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: '20px',
+                            marginBottom: '20px',
+                            padding: '15px',
+                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                            borderRadius: '12px',
+                            color: 'white'
+                        }}>
+                            <img 
+                                src="logo.png" 
+                                alt="Logo BVNĐ"
+                                style={{ 
+                                    width: '100px',
+                                    height: 'auto',
+                                    flexShrink: 0,
+                                    background: 'white',
+                                    borderRadius: '50%',
+                                    padding: '5px'
+                                }}
+                                onError={(e) => { e.target.style.display = 'none' }}
+                            />
+                            <div style={{ flex: 1, textAlign: 'left' }}>
+                                <h2 style={{ marginBottom: '8px', fontSize: '22px', color: 'white' }}>
+                                    📄 XUẤT BÁO CÁO
+                                </h2>
+                                <h3 style={{ fontSize: '16px', color: 'white', margin: 0 }}>
+                                    Bệnh viện Nhi đồng TP Cần Thơ
+                                </h3>
+                            </div>
+                        </div>
+
+                        {/* Quick filters */}
+                        <div style={{ marginBottom: '20px' }}>
+                            <h3 style={{ fontSize: '16px', marginBottom: '10px', color: '#667eea' }}>
+                                ⚡ Nhanh:
+                            </h3>
+                            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                                <button className="btn btn-secondary" onClick={() => setQuickDateRange(7)}>
+                                    7 ngày qua
+                                </button>
+                                <button className="btn btn-secondary" onClick={() => setQuickDateRange(30)}>
+                                    30 ngày qua
+                                </button>
+                                <button className="btn btn-secondary" onClick={() => setQuickDateRange(90)}>
+                                    3 tháng qua
+                                </button>
+                                <button className="btn btn-secondary" onClick={() => setDateRange({ from: '', to: '' })}>
+                                    Tất cả
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Date range filter */}
+                        <div style={{ marginBottom: '20px', padding: '15px', background: '#f7fafc', borderRadius: '10px' }}>
+                            <h3 style={{ fontSize: '16px', marginBottom: '10px', color: '#667eea' }}>
+                                📅 Chọn khoảng thời gian:
+                            </h3>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                                <div>
+                                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 600 }}>
+                                        Từ ngày:
+                                    </label>
+                                    <input
+                                        type="date"
+                                        value={dateRange.from}
+                                        onChange={(e) => setDateRange({ ...dateRange, from: e.target.value })}
+                                        style={{ 
+                                            width: '100%', 
+                                            padding: '10px', 
+                                            borderRadius: '8px',
+                                            border: '2px solid #e2e8f0'
+                                        }}
+                                    />
+                                </div>
+                                <div>
+                                    <label style={{ display: 'block', marginBottom: '5px', fontWeight: 600 }}>
+                                        Đến ngày:
+                                    </label>
+                                    <input
+                                        type="date"
+                                        value={dateRange.to}
+                                        onChange={(e) => setDateRange({ ...dateRange, to: e.target.value })}
+                                        style={{ 
+                                            width: '100%', 
+                                            padding: '10px', 
+                                            borderRadius: '8px',
+                                            border: '2px solid #e2e8f0'
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Statistics */}
+                        <div style={{ 
+                            marginBottom: '20px', 
+                            padding: '20px', 
+                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                            borderRadius: '12px',
+                            color: 'white'
+                        }}>
+                            <h3 style={{ fontSize: '18px', marginBottom: '15px' }}>
+                                📊 Thống kê ({dateRange.from || 'Tất cả'} → {dateRange.to || 'Hiện tại'})
+                            </h3>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '15px' }}>
+                                <div style={{ background: 'rgba(255,255,255,0.2)', padding: '15px', borderRadius: '8px' }}>
+                                    <div style={{ fontSize: '32px', fontWeight: 'bold' }}>{filteredStats.total}</div>
+                                    <div style={{ fontSize: '14px' }}>Tổng góp ý</div>
+                                </div>
+                                <div style={{ background: 'rgba(72,187,120,0.3)', padding: '15px', borderRadius: '8px' }}>
+                                    <div style={{ fontSize: '32px', fontWeight: 'bold' }}>{filteredStats.happy}</div>
+                                    <div style={{ fontSize: '14px' }}>
+                                        Hài lòng ({filteredStats.total > 0 ? ((filteredStats.happy/filteredStats.total)*100).toFixed(1) : 0}%)
+                                    </div>
+                                </div>
+                                <div style={{ background: 'rgba(237,137,54,0.3)', padding: '15px', borderRadius: '8px' }}>
+                                    <div style={{ fontSize: '32px', fontWeight: 'bold' }}>{filteredStats.neutral}</div>
+                                    <div style={{ fontSize: '14px' }}>
+                                        Bình thường ({filteredStats.total > 0 ? ((filteredStats.neutral/filteredStats.total)*100).toFixed(1) : 0}%)
+                                    </div>
+                                </div>
+                                <div style={{ background: 'rgba(245,101,101,0.3)', padding: '15px', borderRadius: '8px' }}>
+                                    <div style={{ fontSize: '32px', fontWeight: 'bold' }}>{filteredStats.sad}</div>
+                                    <div style={{ fontSize: '14px' }}>
+                                        Không hài lòng ({filteredStats.total > 0 ? ((filteredStats.sad/filteredStats.total)*100).toFixed(1) : 0}%)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Export buttons */}
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                            <button 
+                                className="btn btn-success"
+                                onClick={exportToExcel}
+                                style={{ fontSize: '16px', padding: '15px' }}
+                            >
+                                📊 Xuất Excel
+                                <div style={{ fontSize: '12px', fontWeight: 'normal' }}>
+                                    Danh sách chi tiết
+                                </div>
+                            </button>
+                            <button 
+                                className="btn btn-danger"
+                                onClick={exportToPDF}
+                                style={{ fontSize: '16px', padding: '15px' }}
+                            >
+                                📄 Xuất PDF
+                                <div style={{ fontSize: '12px', fontWeight: 'normal' }}>
+                                    Báo cáo tổng hợp
+                                </div>
+                            </button>
+                        </div>
+
+                        {/* Preview */}
+                        <div style={{ marginTop: '30px' }}>
+                            <h3 style={{ fontSize: '16px', marginBottom: '10px', color: '#667eea' }}>
+                                👀 Xem trước ({filteredData.length} góp ý):
+                            </h3>
+                            <div style={{ 
+                                maxHeight: '400px', 
+                                overflow: 'auto', 
+                                background: '#f7fafc', 
+                                padding: '15px',
+                                borderRadius: '8px'
+                            }}>
+                                {filteredData.slice(0, 10).map((feedback, index) => (
+                                    <div key={feedback.id} style={{ 
+                                        padding: '10px',
+                                        marginBottom: '10px',
+                                        background: 'white',
+                                        borderRadius: '6px',
+                                        borderLeft: `4px solid ${
+                                            feedback.satisfaction === 'happy' ? '#48bb78' :
+                                            feedback.satisfaction === 'neutral' ? '#ed8936' : '#f56565'
+                                        }`
+                                    }}>
+                                        <div style={{ fontSize: '13px', color: '#718096' }}>
+                                            {index + 1}. {new Date(feedback.createdAt).toLocaleString('vi-VN')} - {feedback.room}
+                                        </div>
+                                        <div style={{ fontSize: '14px', marginTop: '5px' }}>
+                                            {feedback.content.substring(0, 100)}{feedback.content.length > 100 ? '...' : ''}
+                                        </div>
+                                    </div>
+                                ))}
+                                {filteredData.length > 10 && (
+                                    <div style={{ textAlign: 'center', padding: '10px', color: '#718096' }}>
+                                        ... và {filteredData.length - 10} góp ý khác
+                                    </div>
+                                )}
+                                {filteredData.length === 0 && (
+                                    <div style={{ textAlign: 'center', padding: '40px', color: '#718096' }}>
+                                        Không có góp ý nào trong khoảng thời gian này
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Login Component
+        function Login({ setUser, setCurrentView }) {
+            const [email, setEmail] = useState('');
+            const [password, setPassword] = useState('');
+            const [loading, setLoading] = useState(false);
+
+            const handleLogin = async (e) => {
+                e.preventDefault();
+                setLoading(true);
+
+                try {
+                    await auth.signInWithEmailAndPassword(email, password);
+                    setCurrentView('qr');
+                } catch (error) {
+                    console.error('Login error:', error);
+                    alert('Đăng nhập thất bại! Vui lòng kiểm tra email và mật khẩu.');
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            return (
+                <div className="login-container">
+                    <div className="card">
+                        <h2 style={{ textAlign: 'center', marginBottom: '25px', color: '#667eea', fontSize: '20px' }}>
+                            🔐 Đăng Nhập Quản Lý
+                        </h2>
+                        <form onSubmit={handleLogin}>
+                            <div className="form-group">
+                                <label>📧 Email</label>
+                                <input
+                                    type="email"
+                                    placeholder="Nhập email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>🔑 Mật Khẩu</label>
+                                <input
+                                    type="password"
+                                    placeholder="Nhập mật khẩu"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <button
+                                type="submit"
+                                className="btn btn-primary"
+                                style={{ width: '100%', fontSize: '16px' }}
+                                disabled={loading}
+                            >
+                                {loading ? '⏳ Đang đăng nhập...' : '🚀 Đăng Nhập'}
+                            </button>
+                        </form>
+                        <button
+                            className="btn btn-secondary"
+                            style={{ width: '100%', fontSize: '14px', marginTop: '10px' }}
+                            onClick={() => setCurrentView('form')}
+                        >
+                            ← Quay lại
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
