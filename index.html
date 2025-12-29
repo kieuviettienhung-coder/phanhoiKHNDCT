@@ -27,35 +27,77 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 50%, #15803d 100%);
             min-height: 100vh;
             padding: 0;
+            padding-bottom: env(safe-area-inset-bottom);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255,255,255,0.06) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
         }
 
         .container {
             max-width: 600px;
             margin: 0 auto;
             padding: 15px;
+            position: relative;
+            z-index: 1;
         }
 
         .container.admin {
             max-width: 1400px;
         }
 
-        /* HEADER STYLES - Hiện đại hơn */
+        /* HEADER STYLES - Tươi sáng hơn */
         .header {
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 28px 24px;
+            border-radius: 24px;
+            box-shadow: 
+                0 8px 32px rgba(34, 197, 94, 0.2),
+                0 2px 8px rgba(0, 0, 0, 0.05);
             margin-bottom: 20px;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 2px solid rgba(255,255,255,0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #22c55e 0%, #16a34a 50%, #22c55e 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 0%; }
+            50% { background-position: 100% 0%; }
         }
 
         .header h1 {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -166,17 +208,22 @@
 
         /* CARD STYLES - Shadow và animation đẹp hơn */
         .card {
-            background: white;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
             padding: 24px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-radius: 20px;
+            box-shadow: 
+                0 4px 20px rgba(34, 197, 94, 0.12),
+                0 2px 8px rgba(0,0,0,0.05);
             margin-bottom: 16px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.5);
         }
 
         .card:hover {
-            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            box-shadow: 
+                0 8px 32px rgba(34, 197, 94, 0.18),
+                0 4px 12px rgba(0,0,0,0.08);
             transform: translateY(-2px);
         }
 
@@ -542,13 +589,110 @@
         }
 
         /* RESPONSIVE */
+        /* MOBILE BOTTOM NAVIGATION - iPhone Style */
+        .mobile-nav {
+            display: none;
+        }
+
+        .mobile-nav-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 2px solid rgba(34, 197, 94, 0.2);
+            padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+            box-shadow: 
+                0 -8px 32px rgba(34, 197, 94, 0.15),
+                0 -2px 8px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+        }
+
+        .mobile-nav-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            max-width: 100%;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 4px;
+            cursor: pointer;
+            text-decoration: none;
+            color: #64748b;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            min-height: 68px;
+            border-radius: 12px;
+            margin: 0 4px;
+        }
+
+        .mobile-nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 32px;
+            height: 3px;
+            background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%);
+            border-radius: 0 0 8px 8px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .mobile-nav-item.active {
+            color: #16a34a;
+            background: rgba(34, 197, 94, 0.08);
+        }
+
+        .mobile-nav-item.active::before {
+            opacity: 1;
+        }
+
+        .mobile-nav-item:active {
+            transform: scale(0.95);
+        }
+
+        .mobile-nav-item .nav-icon {
+            font-size: 26px;
+            margin-bottom: 4px;
+            transition: transform 0.3s;
+        }
+
+        .mobile-nav-item .nav-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .mobile-nav-item.active .nav-icon {
+            transform: scale(1.15);
+        }
+
+        /* Hide desktop header on mobile when logged in */
+        .admin-header-desktop {
+            display: block;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
+                padding-bottom: 80px; /* Space for bottom nav */
+            }
+
+            .container.admin {
+                padding-bottom: calc(80px + env(safe-area-inset-bottom));
             }
 
             .header h1 {
-                font-size: 20px;
+                font-size: 22px;
             }
 
             .btn {
@@ -565,11 +709,49 @@
             }
 
             .satisfaction-option {
-                padding: 16px;
+                padding: 20px;
             }
 
-            .satisfaction-option .emoji {
-                font-size: 32px;
+            .satisfaction-emoji {
+                font-size: 40px;
+            }
+
+            /* Show mobile nav on mobile for admin */
+            .mobile-nav {
+                display: block;
+            }
+
+            .admin-header-desktop {
+                display: none;
+            }
+
+            /* Make header simpler on mobile */
+            .header.admin-header {
+                padding: 12px;
+                margin-bottom: 12px;
+            }
+
+            /* Adjust stats grid for mobile */
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            /* Make filters vertical on mobile */
+            .filter-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            /* Better button sizing for touch */
+            .feedback-actions {
+                gap: 8px;
+            }
+
+            .feedback-actions .btn {
+                font-size: 13px;
+                padding: 10px 14px;
+                min-height: 44px; /* iOS touch target */
             }
         }
 
@@ -614,6 +796,37 @@
 
         .empty-state p {
             font-size: 14px;
+        }
+
+        /* ADMIN FOOTER */
+        .admin-footer {
+            text-align: center;
+            margin-top: 32px;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 2px dashed rgba(34, 197, 94, 0.3);
+        }
+
+        .admin-footer p {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #16a34a;
+            border: 2px solid #22c55e;
+            font-weight: 700;
+        }
+
+        .btn-outline:hover {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            border-color: #16a34a;
         }
     </style>
 </head>
@@ -794,62 +1007,100 @@
             };
 
             return (
-                <div className="header">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                            <img 
-                                src="logo.png" 
-                                alt="Logo BVNĐ"
-                                style={{ 
-                                    width: '60px',
-                                    height: 'auto'
-                                }}
-                                onError={(e) => { e.target.style.display = 'none' }}
-                            />
-                            <div>
-                                <h1 style={{ fontSize: '18px', marginBottom: '4px' }}>Quản Lý Góp Ý</h1>
-                                <p style={{ fontSize: '14px', color: '#667eea', margin: 0 }}>Bệnh viện Nhi đồng TP Cần Thơ</p>
+                <>
+                    {/* Desktop Header */}
+                    <div className="header admin-header-desktop">
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                                <img 
+                                    src="logo.png" 
+                                    alt="Logo BVNĐ"
+                                    style={{ 
+                                        width: '60px',
+                                        height: 'auto'
+                                    }}
+                                    onError={(e) => { e.target.style.display = 'none' }}
+                                />
+                                <div>
+                                    <h1 style={{ fontSize: '18px', marginBottom: '4px' }}>Quản Lý Góp Ý</h1>
+                                    <p style={{ fontSize: '14px', color: '#3b82f6', margin: 0 }}>Bệnh viện Nhi đồng TP Cần Thơ</p>
+                                </div>
                             </div>
-                        </div>
-                        <div className="header-buttons">
-                            {currentView !== 'qr' && (
+                            <div className="header-buttons">
                                 <button 
-                                    className="btn btn-secondary btn-icon"
+                                    className={`btn ${currentView === 'admin' ? 'btn-primary' : 'btn-secondary'} btn-icon`}
+                                    onClick={() => setCurrentView('admin')}
+                                >
+                                    📊
+                                    {unreadCount > 0 && currentView !== 'admin' && (
+                                        <span className="notification-badge">{unreadCount}</span>
+                                    )}
+                                </button>
+                                <button 
+                                    className={`btn ${currentView === 'qr' ? 'btn-primary' : 'btn-secondary'} btn-icon`}
                                     onClick={() => setCurrentView('qr')}
                                     title="Tạo QR Code"
                                 >
                                     📱
                                 </button>
-                            )}
-                            {currentView !== 'admin' && (
                                 <button 
-                                    className="btn btn-primary btn-icon"
-                                    onClick={() => setCurrentView('admin')}
-                                >
-                                    📊
-                                    {unreadCount > 0 && (
-                                        <span className="notification-badge">{unreadCount}</span>
-                                    )}
-                                </button>
-                            )}
-                            {currentView !== 'reports' && (
-                                <button 
-                                    className="btn btn-warning btn-icon"
+                                    className={`btn ${currentView === 'reports' ? 'btn-primary' : 'btn-warning'} btn-icon`}
                                     onClick={() => setCurrentView('reports')}
                                     title="Xuất Báo Cáo"
                                 >
                                     📄
                                 </button>
-                            )}
-                            <button 
-                                className="btn btn-danger btn-icon"
-                                onClick={handleLogout}
-                            >
-                                🚪
-                            </button>
+                                <button 
+                                    className="btn btn-danger btn-icon"
+                                    onClick={handleLogout}
+                                >
+                                    🚪
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
+
+                    {/* Mobile Bottom Navigation */}
+                    <div className="mobile-nav">
+                        <div className="mobile-nav-bottom">
+                            <div className="mobile-nav-grid">
+                                <div 
+                                    className={`mobile-nav-item ${currentView === 'admin' ? 'active' : ''}`}
+                                    onClick={() => setCurrentView('admin')}
+                                >
+                                    <div className="nav-icon" style={{ position: 'relative' }}>
+                                        📊
+                                        {unreadCount > 0 && currentView !== 'admin' && (
+                                            <span className="notification-badge">{unreadCount}</span>
+                                        )}
+                                    </div>
+                                    <div className="nav-label">Góp Ý</div>
+                                </div>
+                                <div 
+                                    className={`mobile-nav-item ${currentView === 'qr' ? 'active' : ''}`}
+                                    onClick={() => setCurrentView('qr')}
+                                >
+                                    <div className="nav-icon">📱</div>
+                                    <div className="nav-label">QR Code</div>
+                                </div>
+                                <div 
+                                    className={`mobile-nav-item ${currentView === 'reports' ? 'active' : ''}`}
+                                    onClick={() => setCurrentView('reports')}
+                                >
+                                    <div className="nav-icon">📄</div>
+                                    <div className="nav-label">Báo Cáo</div>
+                                </div>
+                                <div 
+                                    className="mobile-nav-item"
+                                    onClick={handleLogout}
+                                >
+                                    <div className="nav-icon">🚪</div>
+                                    <div className="nav-label">Thoát</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </>
             );
         }
 
