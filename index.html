@@ -1116,6 +1116,7 @@
         }
 
         // QR Generator Component
+        // QR Generator Component
         function QRGenerator() {
             const qrRef = useRef(null);
             const [qrGenerated, setQrGenerated] = useState(false);
@@ -1128,9 +1129,9 @@
                     
                     new QRCode(qrRef.current, {
                         text: currentUrl,
-                        width: 256,
-                        height: 256,
-                        colorDark: "#667eea",
+                        width: 300,
+                        height: 300,
+                        colorDark: "#000000",
                         colorLight: "#ffffff",
                         correctLevel: QRCode.CorrectLevel.H
                     });
@@ -1187,12 +1188,36 @@
                             <h3 style={{ fontSize: '16px', color: '#2d3748', margin: 0 }}>Bệnh viện Nhi đồng TP Cần Thơ</h3>
                         </div>
                     </div>
-                    <p>
+                    <p style={{ textAlign: 'center', marginBottom: '25px', fontSize: '15px' }}>
                         Khách hàng quét mã QR này để gửi góp ý trực tiếp.<br/>
-                        <strong>Không cần đăng nhập - Tối ưu cho điện thoại</strong>
+                        <strong style={{ color: '#22c55e' }}>Không cần đăng nhập - Tối ưu cho điện thoại</strong>
                     </p>
                     
-                    <div ref={qrRef} id="qrcode"></div>
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        marginBottom: '25px'
+                    }}>
+                        <div style={{
+                            padding: '30px',
+                            background: 'white',
+                            borderRadius: '20px',
+                            border: '3px solid #e5e7eb',
+                            boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                            display: 'inline-block'
+                        }}>
+                            <div ref={qrRef} id="qrcode"></div>
+                            <p style={{
+                                textAlign: 'center',
+                                marginTop: '15px',
+                                fontSize: '14px',
+                                color: '#64748b',
+                                fontWeight: '600'
+                            }}>
+                                QUÉT ĐỂ GÓP Ý
+                            </p>
+                        </div>
+                    </div>
                     
                     <div className="qr-actions">
                         <button className="btn btn-primary" onClick={handleDownload}>
@@ -1587,10 +1612,8 @@ ${feedbackData.content}
                         status: newStatus
                     };
                     
-                    // Add timestamp when status changes
-                    if (newStatus === 'processing') {
-                        updates.processingAt = new Date().toISOString();
-                    } else if (newStatus === 'resolved') {
+                    // Add timestamp when status changes to resolved
+                    if (newStatus === 'resolved') {
                         updates.resolvedAt = new Date().toISOString();
                     }
                     
@@ -1777,7 +1800,6 @@ ${feedbackData.content}
                                 >
                                     <option value="">Tất cả</option>
                                     <option value="new">Chưa xem</option>
-                                    <option value="processing">Đang xử lý</option>
                                     <option value="resolved">Đã giải quyết</option>
                                 </select>
                             </div>
@@ -1840,7 +1862,7 @@ ${feedbackData.content}
                                             <strong>💬 Nội dung:</strong>
                                             <p>{feedback.content}</p>
                                             
-                                            {(feedback.processingAt || feedback.resolvedAt) && (
+                                            {feedback.resolvedAt && (
                                                 <div style={{ 
                                                     marginTop: '10px', 
                                                     padding: '8px', 
@@ -1849,17 +1871,7 @@ ${feedbackData.content}
                                                     fontSize: '13px',
                                                     color: '#718096'
                                                 }}>
-                                                    {feedback.processingAt && (
-                                                        <div>⏳ Bắt đầu xử lý: {new Date(feedback.processingAt).toLocaleString('vi-VN')}</div>
-                                                    )}
-                                                    {feedback.resolvedAt && (
-                                                        <div>✅ Hoàn tất: {new Date(feedback.resolvedAt).toLocaleString('vi-VN')}</div>
-                                                    )}
-                                                    {feedback.processingAt && feedback.resolvedAt && (
-                                                        <div style={{ marginTop: '4px', fontWeight: '600', color: '#667eea' }}>
-                                                            ⚡ Thời gian xử lý: {Math.round((new Date(feedback.resolvedAt) - new Date(feedback.processingAt)) / (1000 * 60))} phút
-                                                        </div>
-                                                    )}
+                                                    <div>✅ Hoàn tất: {new Date(feedback.resolvedAt).toLocaleString('vi-VN')}</div>
                                                 </div>
                                             )}
                                             {feedback.assignTo && (
@@ -1914,22 +1926,6 @@ ${feedbackData.content}
                                             {feedback.status === 'new' && (
                                                 <>
                                                     <button
-                                                        className="btn btn-warning"
-                                                        onClick={() => updateStatus(feedback.id, 'processing')}
-                                                    >
-                                                        ⏳ Xử lý
-                                                    </button>
-                                                    <button
-                                                        className="btn btn-secondary"
-                                                        onClick={() => openTransferModal(feedback.id)}
-                                                    >
-                                                        🔄 Chuyển
-                                                    </button>
-                                                </>
-                                            )}
-                                            {feedback.status === 'processing' && (
-                                                <>
-                                                    <button
                                                         className="btn btn-success"
                                                         onClick={() => openResponseModal(feedback.id)}
                                                     >
@@ -1944,21 +1940,12 @@ ${feedbackData.content}
                                                 </>
                                             )}
                                             {feedback.status === 'resolved' && (
-                                                <>
-                                                    <button
-                                                        className="btn btn-primary"
-                                                        onClick={() => openResponseModal(feedback.id)}
-                                                        style={{ fontSize: '14px' }}
-                                                    >
-                                                        ✏️ Sửa phản hồi
-                                                    </button>
-                                                    <button
-                                                        className="btn btn-warning"
-                                                        onClick={() => updateStatus(feedback.id, 'processing')}
-                                                    >
-                                                        ↩️ Mở lại
-                                                    </button>
-                                                </>
+                                                <button
+                                                    className="btn btn-warning"
+                                                    onClick={() => updateStatus(feedback.id, 'new')}
+                                                >
+                                                    ↩️ Mở lại
+                                                </button>
                                             )}
                                             <button
                                                 className="btn btn-danger"
@@ -2102,24 +2089,56 @@ ${feedbackData.content}
                                         fontWeight: '600',
                                         color: '#2d3748'
                                     }}>
-                                        Chuyển cho: <span style={{ color: '#f56565' }}>*</span>
+                                        Chuyển đến Khoa/Phòng: <span style={{ color: '#f56565' }}>*</span>
                                     </label>
-                                    <input
-                                        type="text"
+                                    <select
                                         value={transferModal.assignTo}
                                         onChange={(e) => setTransferModal({
                                             ...transferModal,
                                             assignTo: e.target.value
                                         })}
-                                        placeholder="Nhập tên người nhận (VD: BS. Nguyễn Văn A, Khoa Nội...)"
                                         style={{
                                             width: '100%',
                                             padding: '12px',
                                             borderRadius: '8px',
                                             border: '2px solid #e2e8f0',
-                                            fontSize: '15px'
+                                            fontSize: '15px',
+                                            backgroundColor: 'white',
+                                            cursor: 'pointer'
                                         }}
-                                    />
+                                    >
+                                        <option value="">-- Chọn Khoa/Phòng --</option>
+                                        <option value="Phòng Kế hoạch tổng hợp">Phòng Kế hoạch tổng hợp</option>
+                                        <option value="Phòng Điều dưỡng">Phòng Điều dưỡng</option>
+                                        <option value="Phòng Tổ chức cán bộ">Phòng Tổ chức cán bộ</option>
+                                        <option value="Phòng Hành chính quản trị">Phòng Hành chính quản trị</option>
+                                        <option value="Phòng Tài chính kế toán">Phòng Tài chính kế toán</option>
+                                        <option value="Phòng Chỉ đạo tuyến">Phòng Chỉ đạo tuyến</option>
+                                        <option value="Phòng Vật tư thiết bị y tế">Phòng Vật tư thiết bị y tế</option>
+                                        <option value="Phòng Quản lý chất lượng">Phòng Quản lý chất lượng</option>
+                                        <option value="Phòng Công tác xã hội">Phòng Công tác xã hội</option>
+                                        <option value="Khoa Khám chữa bệnh TYC">Khoa Khám chữa bệnh TYC</option>
+                                        <option value="Khoa Khám bệnh">Khoa Khám bệnh</option>
+                                        <option value="Khoa Nội tổng hợp">Khoa Nội tổng hợp</option>
+                                        <option value="Khoa Nội Hô hấp">Khoa Nội Hô hấp</option>
+                                        <option value="Khoa Nội Tiêu hóa">Khoa Nội Tiêu hóa</option>
+                                        <option value="Khoa Nội Tim mạch">Khoa Nội Tim mạch</option>
+                                        <option value="Khoa Truyền nhiễm">Khoa Truyền nhiễm</option>
+                                        <option value="Khoa Sốt xuất huyết">Khoa Sốt xuất huyết</option>
+                                        <option value="Khoa 3 Chuyên khoa">Khoa 3 Chuyên khoa</option>
+                                        <option value="Khoa Sơ sinh">Khoa Sơ sinh</option>
+                                        <option value="Khoa Dinh dưỡng">Khoa Dinh dưỡng</option>
+                                        <option value="Khoa Hồi sức tích cực – Chống độc">Khoa Hồi sức tích cực – Chống độc</option>
+                                        <option value="Khoa Cấp cứu">Khoa Cấp cứu</option>
+                                        <option value="Khoa Ngoại">Khoa Ngoại</option>
+                                        <option value="Khoa Gây mê hồi sức">Khoa Gây mê hồi sức</option>
+                                        <option value="Khoa Chấn thương Chỉnh hình">Khoa Chấn thương Chỉnh hình</option>
+                                        <option value="Khoa Vật lý trị liệu">Khoa Vật lý trị liệu</option>
+                                        <option value="Khoa Xét nghiệm">Khoa Xét nghiệm</option>
+                                        <option value="Khoa Chẩn đoán hình ảnh">Khoa Chẩn đoán hình ảnh</option>
+                                        <option value="Khoa Kiểm soát nhiễm khuẩn">Khoa Kiểm soát nhiễm khuẩn</option>
+                                        <option value="Khoa Dược">Khoa Dược</option>
+                                    </select>
                                 </div>
 
                                 <div style={{ marginBottom: '20px' }}>
@@ -2181,6 +2200,7 @@ ${feedbackData.content}
                             </div>
                         </div>
                     )}
+
                 </div>
             );
         }
@@ -2221,7 +2241,6 @@ ${feedbackData.content}
                             neutral: feedbackList.filter(f => f.satisfaction === 'neutral').length,
                             sad: feedbackList.filter(f => f.satisfaction === 'sad').length,
                             new: feedbackList.filter(f => f.status === 'new').length,
-                            processing: feedbackList.filter(f => f.status === 'processing').length,
                             resolved: feedbackList.filter(f => f.status === 'resolved').length
                         };
                         setStats(newStats);
@@ -2252,26 +2271,33 @@ ${feedbackData.content}
                 const filteredData = getFilteredFeedbacks();
                 
                 // Prepare data for Excel
-                const excelData = filteredData.map((feedback, index) => ({
-                    'STT': index + 1,
-                    'Ngày giờ nhận': new Date(feedback.createdAt).toLocaleString('vi-VN'),
-                    'Họ tên': feedback.name || 'Không có',
-                    'Số điện thoại': feedback.phone || 'Không cung cấp',
-                    'Phòng/Buồng': feedback.room,
-                    'Mức độ hài lòng': feedback.satisfaction === 'happy' ? 'Hài lòng' : 
-                                       feedback.satisfaction === 'neutral' ? 'Bình thường' : 'Không hài lòng',
-                    'Nội dung góp ý': feedback.content,
-                    'Trạng thái': feedback.status === 'new' ? 'Mới' :
-                                  feedback.status === 'processing' ? 'Đang xử lý' : 'Đã giải quyết',
-                    'Được chuyển cho': feedback.assignTo || '',
-                    'Lý do chuyển': feedback.transferHistory && feedback.transferHistory.length > 0 ? 
-                                    feedback.transferHistory[feedback.transferHistory.length - 1].reason : '',
-                    'Thời gian chuyển': feedback.lastTransferAt ? new Date(feedback.lastTransferAt).toLocaleString('vi-VN') : '',
-                    'Nội dung phản hồi': feedback.response || '',
-                    'Thời gian xử lý': feedback.processingAt ? new Date(feedback.processingAt).toLocaleString('vi-VN') : '',
-                    'Thời gian phản hồi': feedback.responseAt ? new Date(feedback.responseAt).toLocaleString('vi-VN') : '',
-                    'Thời gian hoàn tất': feedback.resolvedAt ? new Date(feedback.resolvedAt).toLocaleString('vi-VN') : ''
-                }));
+                const excelData = filteredData.map((feedback, index) => {
+                    // Calculate processing time in minutes
+                    let processingTime = '';
+                    if (feedback.resolvedAt && feedback.createdAt) {
+                        const minutes = Math.round((new Date(feedback.resolvedAt) - new Date(feedback.createdAt)) / (1000 * 60));
+                        processingTime = `${minutes} phút`;
+                    }
+                    
+                    return {
+                        'STT': index + 1,
+                        'Ngày giờ nhận': new Date(feedback.createdAt).toLocaleString('vi-VN'),
+                        'Họ tên': feedback.name || 'Không có',
+                        'Số điện thoại': feedback.phone || 'Không cung cấp',
+                        'Phòng/Buồng': feedback.room,
+                        'Mức độ hài lòng': feedback.satisfaction === 'happy' ? 'Hài lòng' : 
+                                           feedback.satisfaction === 'neutral' ? 'Bình thường' : 'Không hài lòng',
+                        'Nội dung góp ý': feedback.content,
+                        'Trạng thái': feedback.status === 'new' ? 'Mới' : 'Đã giải quyết',
+                        'Được chuyển cho': feedback.assignTo || '',
+                        'Lý do chuyển': feedback.transferHistory && feedback.transferHistory.length > 0 ? 
+                                        feedback.transferHistory[feedback.transferHistory.length - 1].reason : '',
+                        'Thời gian chuyển': feedback.lastTransferAt ? new Date(feedback.lastTransferAt).toLocaleString('vi-VN') : '',
+                        'Nội dung phản hồi': feedback.response || '',
+                        'Thời gian hoàn tất': feedback.resolvedAt ? new Date(feedback.resolvedAt).toLocaleString('vi-VN') : '',
+                        'Thời gian xử lý': processingTime
+                    };
+                });
 
                 // Create workbook
                 const wb = XLSX.utils.book_new();
@@ -2291,9 +2317,8 @@ ${feedbackData.content}
                     { wch: 40 }, // Lý do chuyển
                     { wch: 18 }, // Thời gian chuyển
                     { wch: 50 }, // Nội dung phản hồi
-                    { wch: 18 }, // Thời gian xử lý
-                    { wch: 18 }, // Thời gian phản hồi
-                    { wch: 18 }  // Thời gian hoàn tất
+                    { wch: 18 }, // Thời gian hoàn tất
+                    { wch: 15 }  // Thời gian xử lý
                 ];
 
                 XLSX.utils.book_append_sheet(wb, ws, 'Góp ý khách hàng');
@@ -2363,8 +2388,7 @@ ${feedbackData.content}
                     const date = new Date(feedback.createdAt).toLocaleString('vi-VN');
                     const satisfaction = feedback.satisfaction === 'happy' ? 'Hai long' : 
                                        feedback.satisfaction === 'neutral' ? 'Binh thuong' : 'Khong hai long';
-                    const status = feedback.status === 'new' ? 'Moi' :
-                                  feedback.status === 'processing' ? 'Dang xu ly' : 'Da giai quyet';
+                    const status = feedback.status === 'new' ? 'Moi' : 'Da giai quyet';
                     
                     doc.text(`${i + 1}. ${date} - ${feedback.room} - ${satisfaction} [${status}]`, 25, yPos);
                     yPos += 5;
