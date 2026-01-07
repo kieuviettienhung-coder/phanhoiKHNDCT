@@ -13,7 +13,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -1115,40 +1115,34 @@
             );
         }
 
-        // QR Generator Component
-        // QR Generator Component
+        // QR Generator Component - Sử dụng QR Server API (tương thích iOS + Android)
         function QRGenerator() {
             const qrRef = useRef(null);
+            const [qrUrl, setQrUrl] = useState('');
             const [qrGenerated, setQrGenerated] = useState(false);
 
             useEffect(() => {
-                if (!qrGenerated && qrRef.current) {
-                    qrRef.current.innerHTML = '';
-                    
+                if (!qrGenerated) {
                     const currentUrl = window.location.href.split('?')[0];
-                    
-                    new QRCode(qrRef.current, {
-                        text: currentUrl,
-                        width: 300,
-                        height: 300,
-                        colorDark: "#000000",
-                        colorLight: "#ffffff",
-                        correctLevel: QRCode.CorrectLevel.H
-                    });
-                    
+                    // Sử dụng QR Server API - miễn phí, ổn định, tương thích iOS + Android
+                    const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(currentUrl)}&ecc=H&margin=10`;
+                    setQrUrl(qrApiUrl);
                     setQrGenerated(true);
                 }
             }, [qrGenerated]);
 
             const handleDownload = () => {
-                const canvas = qrRef.current.querySelector('canvas');
-                if (canvas) {
-                    const url = canvas.toDataURL('image/png');
-                    const link = document.createElement('a');
-                    link.download = 'QR-Gop-Y-BVND-CanTho.png';
-                    link.href = url;
-                    link.click();
-                }
+                // Tải ảnh QR
+                const link = document.createElement('a');
+                link.download = 'QR-Gop-Y-BVND-CanTho.png';
+                fetch(qrUrl)
+                    .then(response => response.blob())
+                    .then(blob => {
+                        const url = URL.createObjectURL(blob);
+                        link.href = url;
+                        link.click();
+                        URL.revokeObjectURL(url);
+                    });
             };
 
             const handlePrint = () => {
@@ -1206,7 +1200,18 @@
                             boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
                             display: 'inline-block'
                         }}>
-                            <div ref={qrRef} id="qrcode"></div>
+                            {qrUrl && (
+                                <img
+                                    src={qrUrl}
+                                    alt="QR Code Góp Ý"
+                                    style={{
+                                        width: '300px',
+                                        height: '300px',
+                                        display: 'block'
+                                    }}
+                                    ref={qrRef}
+                                />
+                            )}
                             <p style={{
                                 textAlign: 'center',
                                 marginTop: '15px',
