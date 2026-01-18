@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -42,10 +43,10 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(255,255,255,0.06) 0%, transparent 50%);
+            background:
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.06) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
         }
@@ -69,12 +70,12 @@
             -webkit-backdrop-filter: blur(20px);
             padding: 28px 24px;
             border-radius: 24px;
-            box-shadow: 
+            box-shadow:
                 0 8px 32px rgba(34, 197, 94, 0.2),
                 0 2px 8px rgba(0, 0, 0, 0.05);
             margin-bottom: 20px;
             text-align: center;
-            border: 2px solid rgba(255,255,255,0.6);
+            border: 2px solid rgba(255, 255, 255, 0.6);
             position: relative;
             overflow: hidden;
         }
@@ -92,8 +93,15 @@
         }
 
         @keyframes shimmer {
-            0%, 100% { background-position: 0% 0%; }
-            50% { background-position: 100% 0%; }
+
+            0%,
+            100% {
+                background-position: 0% 0%;
+            }
+
+            50% {
+                background-position: 100% 0%;
+            }
         }
 
         .header h1 {
@@ -139,7 +147,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: left 0.5s;
         }
 
@@ -212,18 +220,18 @@
             backdrop-filter: blur(10px);
             padding: 24px;
             border-radius: 20px;
-            box-shadow: 
+            box-shadow:
                 0 4px 20px rgba(34, 197, 94, 0.12),
-                0 2px 8px rgba(0,0,0,0.05);
+                0 2px 8px rgba(0, 0, 0, 0.05);
             margin-bottom: 16px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(255,255,255,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         .card:hover {
-            box-shadow: 
+            box-shadow:
                 0 8px 32px rgba(34, 197, 94, 0.18),
-                0 4px 12px rgba(0,0,0,0.08);
+                0 4px 12px rgba(0, 0, 0, 0.08);
             transform: translateY(-2px);
         }
 
@@ -232,7 +240,7 @@
             background: white;
             padding: 24px;
             border-radius: 16px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
             margin-bottom: 32px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border-left: 4px solid #22c55e;
@@ -276,7 +284,7 @@
             font-size: 14px;
             font-weight: 600;
             margin-right: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .satisfaction-badge.happy {
@@ -302,7 +310,7 @@
             border-radius: 12px;
             font-size: 12px;
             font-weight: 600;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
         }
 
         .status-badge.status-new {
@@ -414,7 +422,7 @@
 
         .satisfaction-option:hover {
             transform: scale(1.03);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
         }
 
         .satisfaction-option:hover::before {
@@ -423,7 +431,7 @@
 
         .satisfaction-option.selected {
             border-width: 3px;
-            box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
             transform: scale(1.02);
         }
 
@@ -486,17 +494,17 @@
             background: white;
             padding: 20px;
             border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             text-align: center;
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .stat-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
         }
 
         .stat-card::before {
@@ -532,9 +540,9 @@
             background: white;
             padding: 20px;
             border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             margin-bottom: 20px;
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .filter-grid {
@@ -559,6 +567,7 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -587,7 +596,7 @@
         .spinner {
             width: 50px;
             height: 50px;
-            border: 4px solid rgba(255,255,255,0.3);
+            border: 4px solid rgba(255, 255, 255, 0.3);
             border-top-color: white;
             border-radius: 50%;
             animation: spin 1s linear infinite;
@@ -595,7 +604,9 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* RESPONSIVE */
@@ -614,7 +625,7 @@
             -webkit-backdrop-filter: blur(20px);
             border-top: 2px solid rgba(34, 197, 94, 0.2);
             padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
-            box-shadow: 
+            box-shadow:
                 0 -8px 32px rgba(34, 197, 94, 0.15),
                 0 -2px 8px rgba(0, 0, 0, 0.05);
             z-index: 1000;
@@ -694,7 +705,8 @@
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
-                padding-bottom: 80px; /* Space for bottom nav */
+                padding-bottom: 80px;
+                /* Space for bottom nav */
             }
 
             .container.admin {
@@ -762,7 +774,8 @@
             .feedback-actions .btn {
                 font-size: 13px;
                 padding: 10px 14px;
-                min-height: 44px; /* iOS touch target */
+                min-height: 44px;
+                /* iOS touch target */
             }
         }
 
@@ -782,8 +795,15 @@
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
         }
 
         /* EMPTY STATE */
@@ -841,6 +861,7 @@
         }
     </style>
 </head>
+
 <body>
     <div id="root"></div>
 
@@ -909,28 +930,28 @@
                         // Customer view with admin button at bottom
                         <>
                             <div className="header">
-                                <div style={{ 
-                                    display: 'flex', 
+                                <div style={{
+                                    display: 'flex',
                                     flexDirection: 'column',
                                     alignItems: 'center',
                                     gap: '20px'
                                 }}>
                                     {/* Logo */}
-                                    <img 
-                                        src="logo.png" 
+                                    <img
+                                        src="logo.png"
                                         alt="Logo BVNĐ Cần Thơ"
-                                        style={{ 
+                                        style={{
                                             width: '140px',
                                             height: 'auto',
                                             filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.1))'
                                         }}
                                         onError={(e) => { e.target.style.display = 'none' }}
                                     />
-                                    
+
                                     {/* Title Section */}
                                     <div style={{ textAlign: 'center' }}>
-                                        <h1 style={{ 
-                                            fontSize: '28px', 
+                                        <h1 style={{
+                                            fontSize: '28px',
                                             marginBottom: '12px',
                                             background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
                                             WebkitBackgroundClip: 'text',
@@ -941,16 +962,16 @@
                                         }}>
                                             GÓP Ý KHÁCH HÀNG
                                         </h1>
-                                        <h2 style={{ 
-                                            fontSize: '18px', 
-                                            color: '#1e40af', 
-                                            fontWeight: '700', 
-                                            marginBottom: '8px' 
+                                        <h2 style={{
+                                            fontSize: '18px',
+                                            color: '#1e40af',
+                                            fontWeight: '700',
+                                            marginBottom: '8px'
                                         }}>
                                             Bệnh viện Nhi đồng TP Cần Thơ
                                         </h2>
-                                        <p style={{ 
-                                            fontSize: '15px', 
+                                        <p style={{
+                                            fontSize: '15px',
                                             margin: 0,
                                             color: '#64748b',
                                             fontWeight: '500',
@@ -962,11 +983,11 @@
                                 </div>
                             </div>
                             <FeedbackForm />
-                            
+
                             {/* Admin access button */}
                             <div className="admin-footer">
                                 <p>Quản trị viên</p>
-                                <button 
+                                <button
                                     className="btn btn-outline"
                                     onClick={() => setCurrentView('login')}
                                 >
@@ -977,13 +998,13 @@
                     ) : (
                         // Admin view
                         <>
-                            <AdminHeader 
-                                currentView={currentView} 
+                            <AdminHeader
+                                currentView={currentView}
                                 setCurrentView={setCurrentView}
                                 user={user}
                                 setUser={setUser}
                             />
-                            
+
                             {currentView === 'qr' && user && <QRGenerator />}
                             {currentView === 'admin' && user && <AdminDashboard />}
                             {currentView === 'reports' && user && <Reports />}
@@ -1023,10 +1044,10 @@
                     <div className="header admin-header-desktop">
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                                <img 
-                                    src="logo.png" 
+                                <img
+                                    src="logo.png"
                                     alt="Logo BVNĐ"
-                                    style={{ 
+                                    style={{
                                         width: '60px',
                                         height: 'auto'
                                     }}
@@ -1038,7 +1059,7 @@
                                 </div>
                             </div>
                             <div className="header-buttons">
-                                <button 
+                                <button
                                     className={`btn ${currentView === 'admin' ? 'btn-primary' : 'btn-secondary'} btn-icon`}
                                     onClick={() => setCurrentView('admin')}
                                 >
@@ -1047,21 +1068,21 @@
                                         <span className="notification-badge">{unreadCount}</span>
                                     )}
                                 </button>
-                                <button 
+                                <button
                                     className={`btn ${currentView === 'qr' ? 'btn-primary' : 'btn-secondary'} btn-icon`}
                                     onClick={() => setCurrentView('qr')}
                                     title="Tạo QR Code"
                                 >
                                     📱
                                 </button>
-                                <button 
+                                <button
                                     className={`btn ${currentView === 'reports' ? 'btn-primary' : 'btn-warning'} btn-icon`}
                                     onClick={() => setCurrentView('reports')}
                                     title="Xuất Báo Cáo"
                                 >
                                     📄
                                 </button>
-                                <button 
+                                <button
                                     className="btn btn-danger btn-icon"
                                     onClick={handleLogout}
                                 >
@@ -1075,7 +1096,7 @@
                     <div className="mobile-nav">
                         <div className="mobile-nav-bottom">
                             <div className="mobile-nav-grid">
-                                <div 
+                                <div
                                     className={`mobile-nav-item ${currentView === 'admin' ? 'active' : ''}`}
                                     onClick={() => setCurrentView('admin')}
                                 >
@@ -1087,21 +1108,21 @@
                                     </div>
                                     <div className="nav-label">Góp Ý</div>
                                 </div>
-                                <div 
+                                <div
                                     className={`mobile-nav-item ${currentView === 'qr' ? 'active' : ''}`}
                                     onClick={() => setCurrentView('qr')}
                                 >
                                     <div className="nav-icon">📱</div>
                                     <div className="nav-label">QR Code</div>
                                 </div>
-                                <div 
+                                <div
                                     className={`mobile-nav-item ${currentView === 'reports' ? 'active' : ''}`}
                                     onClick={() => setCurrentView('reports')}
                                 >
                                     <div className="nav-icon">📄</div>
                                     <div className="nav-label">Báo Cáo</div>
                                 </div>
-                                <div 
+                                <div
                                     className="mobile-nav-item"
                                     onClick={handleLogout}
                                 >
@@ -1158,19 +1179,19 @@
 
             return (
                 <div className="qr-section">
-                    <div style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
                         gap: '20px',
                         marginBottom: '20px',
                         padding: '15px',
                         background: 'white',
                         borderRadius: '12px'
                     }}>
-                        <img 
-                            src="logo.png" 
+                        <img
+                            src="logo.png"
                             alt="Logo BVNĐ"
-                            style={{ 
+                            style={{
                                 width: '100px',
                                 height: 'auto',
                                 flexShrink: 0
@@ -1183,10 +1204,10 @@
                         </div>
                     </div>
                     <p style={{ textAlign: 'center', marginBottom: '25px', fontSize: '15px' }}>
-                        Khách hàng quét mã QR này để gửi góp ý trực tiếp.<br/>
+                        Khách hàng quét mã QR này để gửi góp ý trực tiếp.<br />
                         <strong style={{ color: '#22c55e' }}>Không cần đăng nhập - Tối ưu cho điện thoại</strong>
                     </p>
-                    
+
                     <div style={{
                         display: 'flex',
                         justifyContent: 'center',
@@ -1223,7 +1244,7 @@
                             </p>
                         </div>
                     </div>
-                    
+
                     <div className="qr-actions">
                         <button className="btn btn-primary" onClick={handleDownload}>
                             💾 Tải QR Code
@@ -1247,13 +1268,13 @@
                             <li>Form góp ý tự động mở</li>
                             <li>Khách không cần đăng nhập!</li>
                         </ol>
-                        
+
                         <div style={{ marginTop: '20px', padding: '15px', background: 'white', borderRadius: '8px', border: '2px solid #667eea' }}>
                             <strong style={{ color: '#667eea' }}>🤖 Thông báo Telegram:</strong>
                             <p style={{ marginTop: '8px', fontSize: '14px' }}>
-                                Khi có góp ý mới, bạn sẽ nhận thông báo <strong>TỨC THÌ</strong> qua Telegram Bot!<br/>
-                                ⚡ Nhanh chóng (3-5 giây)<br/>
-                                🔔 Tin cậy 100%<br/>
+                                Khi có góp ý mới, bạn sẽ nhận thông báo <strong>TỨC THÌ</strong> qua Telegram Bot!<br />
+                                ⚡ Nhanh chóng (3-5 giây)<br />
+                                🔔 Tin cậy 100%<br />
                                 📱 Tap là mở app ngay
                             </p>
                         </div>
@@ -1261,7 +1282,7 @@
                         <div style={{ marginTop: '15px', padding: '15px', background: '#fffaf0', borderRadius: '8px', border: '2px solid #ed8936' }}>
                             <strong style={{ color: '#ed8936' }}>📧 Email Backup:</strong>
                             <p style={{ marginTop: '8px', fontSize: '14px' }}>
-                                Email sẽ được gửi tới: <strong>kieuviettienhung@gmail.com</strong><br/>
+                                Email sẽ được gửi tới: <strong>kieuviettienhung@gmail.com</strong><br />
                                 (để lưu trữ và tham khảo sau)
                             </p>
                         </div>
@@ -1306,8 +1327,8 @@
                     // Determine satisfaction emoji and text
                     let satisfactionEmoji = '';
                     let satisfactionText = '';
-                    
-                    switch(feedbackData.satisfaction) {
+
+                    switch (feedbackData.satisfaction) {
                         case 'happy':
                             satisfactionEmoji = '😊';
                             satisfactionText = 'HÀI LÒNG';
@@ -1340,7 +1361,7 @@ ${feedbackData.content}
 
                     // Send to Telegram
                     const telegramApiUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-                    
+
                     const response = await fetch(telegramApiUrl, {
                         method: 'POST',
                         headers: {
@@ -1377,8 +1398,8 @@ ${feedbackData.content}
                     // Determine satisfaction text and color
                     let satisfactionText = '';
                     let satisfactionColor = '';
-                    
-                    switch(feedbackData.satisfaction) {
+
+                    switch (feedbackData.satisfaction) {
                         case 'happy':
                             satisfactionText = '😊 HÀI LÒNG';
                             satisfactionColor = '#48bb78';
@@ -1425,7 +1446,7 @@ ${feedbackData.content}
 
             const handleSubmit = async (e) => {
                 e.preventDefault();
-                
+
                 if (!formData.content || !formData.satisfaction || !formData.room) {
                     alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
                     return;
@@ -1542,9 +1563,9 @@ ${feedbackData.content}
                             />
                         </div>
 
-                        <button 
-                            type="submit" 
-                            className="btn btn-primary" 
+                        <button
+                            type="submit"
+                            className="btn btn-primary"
                             style={{ width: '100%', fontSize: '18px', padding: '16px' }}
                             disabled={submitting}
                         >
@@ -1575,7 +1596,8 @@ ${feedbackData.content}
             const [responseModal, setResponseModal] = useState({
                 show: false,
                 feedbackId: null,
-                response: ''
+                response: '',
+                conclusion: ''
             });
             const [transferModal, setTransferModal] = useState({
                 show: false,
@@ -1593,9 +1615,9 @@ ${feedbackData.content}
                             id,
                             ...feedback
                         })).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-                        
+
                         setFeedbacks(feedbackList);
-                        
+
                         const newStats = {
                             total: feedbackList.length,
                             happy: feedbackList.filter(f => f.satisfaction === 'happy').length,
@@ -1616,12 +1638,12 @@ ${feedbackData.content}
                     const updates = {
                         status: newStatus
                     };
-                    
+
                     // Add timestamp when status changes to resolved
                     if (newStatus === 'resolved') {
                         updates.resolvedAt = new Date().toISOString();
                     }
-                    
+
                     await db.ref(`feedbacks/${feedbackId}`).update(updates);
                 } catch (error) {
                     console.error('Error updating status:', error);
@@ -1634,7 +1656,8 @@ ${feedbackData.content}
                 setResponseModal({
                     show: true,
                     feedbackId: feedbackId,
-                    response: feedback.response || ''
+                    response: feedback.response || '',
+                    conclusion: feedback.conclusion || ''
                 });
             };
 
@@ -1642,7 +1665,8 @@ ${feedbackData.content}
                 setResponseModal({
                     show: false,
                     feedbackId: null,
-                    response: ''
+                    response: '',
+                    conclusion: ''
                 });
             };
 
@@ -1651,14 +1675,28 @@ ${feedbackData.content}
                     alert('Vui lòng nhập nội dung phản hồi!');
                     return;
                 }
+                if (!responseModal.conclusion.trim()) {
+                    alert('Vui lòng nhập kết luận!');
+                    return;
+                }
 
                 try {
-                    await db.ref(`feedbacks/${responseModal.feedbackId}`).update({
+                    const feedback = feedbacks.find(f => f.id === responseModal.feedbackId);
+                    const updates = {
                         response: responseModal.response,
-                        responseAt: new Date().toISOString(),
-                        status: 'resolved',
-                        resolvedAt: new Date().toISOString()
-                    });
+                        conclusion: responseModal.conclusion,
+                        status: 'resolved'
+                    };
+
+                    // Chỉ ghi dấu thời gian lần đầu tiên
+                    if (!feedback.responseAt) {
+                        updates.responseAt = new Date().toISOString();
+                    }
+                    if (!feedback.resolvedAt) {
+                        updates.resolvedAt = new Date().toISOString();
+                    }
+
+                    await db.ref(`feedbacks/${responseModal.feedbackId}`).update(updates);
                     closeResponseModal();
                 } catch (error) {
                     console.error('Error saving response:', error);
@@ -1697,7 +1735,7 @@ ${feedbackData.content}
                 try {
                     const feedback = feedbacks.find(f => f.id === transferModal.feedbackId);
                     const transferHistory = feedback.transferHistory || [];
-                    
+
                     transferHistory.push({
                         to: transferModal.assignTo,
                         reason: transferModal.reason,
@@ -1709,7 +1747,7 @@ ${feedbackData.content}
                         transferHistory: transferHistory,
                         lastTransferAt: new Date().toISOString()
                     });
-                    
+
                     closeTransferModal();
                 } catch (error) {
                     console.error('Error transferring:', error);
@@ -1824,7 +1862,7 @@ ${feedbackData.content}
                         <h3 style={{ marginBottom: '15px', color: '#667eea', fontSize: '16px' }}>
                             📋 Góp Ý ({filteredFeedbacks.length})
                         </h3>
-                        
+
                         {filteredFeedbacks.length === 0 ? (
                             <div className="empty-state">
                                 <div className="empty-state-icon">📭</div>
@@ -1840,14 +1878,14 @@ ${feedbackData.content}
                                             <span>👤 <strong>{feedback.name}</strong></span>
                                             <span>📱 {feedback.phone}</span>
                                             <span>🏥 {feedback.room}</span>
-                                            <span>🕒 {new Date(feedback.createdAt).toLocaleString('vi-VN', { 
-                                                day: '2-digit', 
-                                                month: '2-digit', 
-                                                hour: '2-digit', 
-                                                minute: '2-digit' 
+                                            <span>🕒 {new Date(feedback.createdAt).toLocaleString('vi-VN', {
+                                                day: '2-digit',
+                                                month: '2-digit',
+                                                hour: '2-digit',
+                                                minute: '2-digit'
                                             })}</span>
                                         </div>
-                                        
+
                                         {/* Emoji + Status Badge */}
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '8px' }}>
                                             <span style={{ fontSize: '24px' }}>
@@ -1866,12 +1904,12 @@ ${feedbackData.content}
                                         <div className="feedback-content">
                                             <strong>💬 Nội dung:</strong>
                                             <p>{feedback.content}</p>
-                                            
+
                                             {feedback.resolvedAt && (
-                                                <div style={{ 
-                                                    marginTop: '10px', 
-                                                    padding: '8px', 
-                                                    background: '#f7fafc', 
+                                                <div style={{
+                                                    marginTop: '10px',
+                                                    padding: '8px',
+                                                    background: '#f7fafc',
                                                     borderRadius: '6px',
                                                     fontSize: '13px',
                                                     color: '#718096'
@@ -1880,10 +1918,10 @@ ${feedbackData.content}
                                                 </div>
                                             )}
                                             {feedback.assignTo && (
-                                                <div style={{ 
-                                                    marginTop: '10px', 
-                                                    padding: '10px', 
-                                                    background: '#fff3cd', 
+                                                <div style={{
+                                                    marginTop: '10px',
+                                                    padding: '10px',
+                                                    background: '#fff3cd',
                                                     borderRadius: '6px',
                                                     borderLeft: '4px solid #ffc107'
                                                 }}>
@@ -1908,10 +1946,10 @@ ${feedbackData.content}
                                                 </div>
                                             )}
                                             {feedback.response && (
-                                                <div style={{ 
-                                                    marginTop: '10px', 
-                                                    padding: '10px', 
-                                                    background: '#e6ffed', 
+                                                <div style={{
+                                                    marginTop: '10px',
+                                                    padding: '10px',
+                                                    background: '#e6ffed',
                                                     borderRadius: '6px',
                                                     borderLeft: '4px solid #48bb78'
                                                 }}>
@@ -1922,6 +1960,18 @@ ${feedbackData.content}
                                                             🕒 {new Date(feedback.responseAt).toLocaleString('vi-VN')}
                                                         </div>
                                                     )}
+                                                </div>
+                                            )}
+                                            {feedback.conclusion && (
+                                                <div style={{
+                                                    marginTop: '10px',
+                                                    padding: '10px',
+                                                    background: '#f0f4ff',
+                                                    borderRadius: '6px',
+                                                    borderLeft: '4px solid #667eea'
+                                                }}>
+                                                    <strong style={{ color: '#4c51bf' }}>📋 Kết luận:</strong>
+                                                    <p style={{ margin: '5px 0 0 0', color: '#2d3748', fontWeight: '600' }}>{feedback.conclusion}</p>
                                                 </div>
                                             )}
                                         </div>
@@ -1988,17 +2038,17 @@ ${feedbackData.content}
                                 width: '100%',
                                 boxShadow: '0 10px 40px rgba(0,0,0,0.2)'
                             }}>
-                                <h2 style={{ 
-                                    color: '#667eea', 
+                                <h2 style={{
+                                    color: '#667eea',
                                     marginBottom: '20px',
                                     fontSize: '22px'
                                 }}>
                                     💬 Phản Hồi Khách Hàng
                                 </h2>
-                                
+
                                 <div style={{ marginBottom: '20px' }}>
-                                    <label style={{ 
-                                        display: 'block', 
+                                    <label style={{
+                                        display: 'block',
                                         marginBottom: '10px',
                                         fontWeight: '600',
                                         color: '#2d3748'
@@ -2023,8 +2073,8 @@ ${feedbackData.content}
                                             resize: 'vertical'
                                         }}
                                     />
-                                    <div style={{ 
-                                        fontSize: '13px', 
+                                    <div style={{
+                                        fontSize: '13px',
                                         color: '#718096',
                                         marginTop: '8px'
                                     }}>
@@ -2032,8 +2082,44 @@ ${feedbackData.content}
                                     </div>
                                 </div>
 
-                                <div style={{ 
-                                    display: 'flex', 
+                                <div style={{ marginBottom: '20px' }}>
+                                    <label style={{
+                                        display: 'block',
+                                        marginBottom: '10px',
+                                        fontWeight: '600',
+                                        color: '#2d3748'
+                                    }}>
+                                        Kết luận: <span style={{ color: '#f56565' }}>*</span>
+                                    </label>
+                                    <textarea
+                                        value={responseModal.conclusion}
+                                        onChange={(e) => setResponseModal({
+                                            ...responseModal,
+                                            conclusion: e.target.value
+                                        })}
+                                        placeholder="Nhập kết luận cuối cùng về kết quả phản hồi..."
+                                        style={{
+                                            width: '100%',
+                                            minHeight: '100px',
+                                            padding: '12px',
+                                            borderRadius: '8px',
+                                            border: '2px solid #e2e8f0',
+                                            fontSize: '15px',
+                                            fontFamily: 'inherit',
+                                            resize: 'vertical'
+                                        }}
+                                    />
+                                    <div style={{
+                                        fontSize: '13px',
+                                        color: '#718096',
+                                        marginTop: '8px'
+                                    }}>
+                                        💡 VD: "Đã giải quyết thành công", "Đã chuyển cho khoa phòng liên quan xử lý", "Khách hàng hài lòng với kết quả"
+                                    </div>
+                                </div>
+
+                                <div style={{
+                                    display: 'flex',
                                     gap: '10px',
                                     justifyContent: 'flex-end'
                                 }}>
@@ -2079,17 +2165,17 @@ ${feedbackData.content}
                                 width: '100%',
                                 boxShadow: '0 10px 40px rgba(0,0,0,0.2)'
                             }}>
-                                <h2 style={{ 
-                                    color: '#f59e0b', 
+                                <h2 style={{
+                                    color: '#f59e0b',
                                     marginBottom: '20px',
                                     fontSize: '22px'
                                 }}>
                                     🔄 Chuyển Xử Lý
                                 </h2>
-                                
+
                                 <div style={{ marginBottom: '20px' }}>
-                                    <label style={{ 
-                                        display: 'block', 
+                                    <label style={{
+                                        display: 'block',
                                         marginBottom: '10px',
                                         fontWeight: '600',
                                         color: '#2d3748'
@@ -2147,8 +2233,8 @@ ${feedbackData.content}
                                 </div>
 
                                 <div style={{ marginBottom: '20px' }}>
-                                    <label style={{ 
-                                        display: 'block', 
+                                    <label style={{
+                                        display: 'block',
                                         marginBottom: '10px',
                                         fontWeight: '600',
                                         color: '#2d3748'
@@ -2173,8 +2259,8 @@ ${feedbackData.content}
                                             resize: 'vertical'
                                         }}
                                     />
-                                    <div style={{ 
-                                        fontSize: '13px', 
+                                    <div style={{
+                                        fontSize: '13px',
                                         color: '#718096',
                                         marginTop: '8px'
                                     }}>
@@ -2182,8 +2268,8 @@ ${feedbackData.content}
                                     </div>
                                 </div>
 
-                                <div style={{ 
-                                    display: 'flex', 
+                                <div style={{
+                                    display: 'flex',
                                     gap: '10px',
                                     justifyContent: 'flex-end'
                                 }}>
@@ -2237,9 +2323,9 @@ ${feedbackData.content}
                             id,
                             ...feedback
                         })).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-                        
+
                         setFeedbacks(feedbackList);
-                        
+
                         const newStats = {
                             total: feedbackList.length,
                             happy: feedbackList.filter(f => f.satisfaction === 'happy').length,
@@ -2274,7 +2360,7 @@ ${feedbackData.content}
 
             const exportToExcel = () => {
                 const filteredData = getFilteredFeedbacks();
-                
+
                 // Prepare data for Excel
                 const excelData = filteredData.map((feedback, index) => {
                     // Calculate processing time in minutes
@@ -2283,22 +2369,23 @@ ${feedbackData.content}
                         const minutes = Math.round((new Date(feedback.resolvedAt) - new Date(feedback.createdAt)) / (1000 * 60));
                         processingTime = `${minutes} phút`;
                     }
-                    
+
                     return {
                         'STT': index + 1,
                         'Ngày giờ nhận': new Date(feedback.createdAt).toLocaleString('vi-VN'),
                         'Họ tên': feedback.name || 'Không có',
                         'Số điện thoại': feedback.phone || 'Không cung cấp',
                         'Phòng/Buồng': feedback.room,
-                        'Mức độ hài lòng': feedback.satisfaction === 'happy' ? 'Hài lòng' : 
-                                           feedback.satisfaction === 'neutral' ? 'Bình thường' : 'Không hài lòng',
+                        'Mức độ hài lòng': feedback.satisfaction === 'happy' ? 'Hài lòng' :
+                            feedback.satisfaction === 'neutral' ? 'Bình thường' : 'Không hài lòng',
                         'Nội dung góp ý': feedback.content,
                         'Trạng thái': feedback.status === 'new' ? 'Mới' : 'Đã giải quyết',
                         'Được chuyển cho': feedback.assignTo || '',
-                        'Lý do chuyển': feedback.transferHistory && feedback.transferHistory.length > 0 ? 
-                                        feedback.transferHistory[feedback.transferHistory.length - 1].reason : '',
+                        'Lý do chuyển': feedback.transferHistory && feedback.transferHistory.length > 0 ?
+                            feedback.transferHistory[feedback.transferHistory.length - 1].reason : '',
                         'Thời gian chuyển': feedback.lastTransferAt ? new Date(feedback.lastTransferAt).toLocaleString('vi-VN') : '',
                         'Nội dung phản hồi': feedback.response || '',
+                        'Kết luận': feedback.conclusion || '',
                         'Thời gian hoàn tất': feedback.resolvedAt ? new Date(feedback.resolvedAt).toLocaleString('vi-VN') : '',
                         'Thời gian xử lý': processingTime
                     };
@@ -2308,7 +2395,6 @@ ${feedbackData.content}
                 const wb = XLSX.utils.book_new();
                 const ws = XLSX.utils.json_to_sheet(excelData);
 
-                // Set column widths
                 ws['!cols'] = [
                     { wch: 5 },  // STT
                     { wch: 18 }, // Ngày giờ nhận
@@ -2322,6 +2408,7 @@ ${feedbackData.content}
                     { wch: 40 }, // Lý do chuyển
                     { wch: 18 }, // Thời gian chuyển
                     { wch: 50 }, // Nội dung phản hồi
+                    { wch: 40 }, // Kết luận
                     { wch: 18 }, // Thời gian hoàn tất
                     { wch: 15 }  // Thời gian xử lý
                 ];
@@ -2355,7 +2442,7 @@ ${feedbackData.content}
 
                 // Date range
                 doc.setFontSize(11);
-                const dateRangeText = dateRange.from && dateRange.to 
+                const dateRangeText = dateRange.from && dateRange.to
                     ? `Tu ngay: ${dateRange.from} - Den ngay: ${dateRange.to}`
                     : 'Tat ca thoi gian';
                 doc.text(dateRangeText, 105, 48, { align: 'center' });
@@ -2365,17 +2452,17 @@ ${feedbackData.content}
                 let yPos = 60;
                 doc.text('THONG KE TONG QUAN:', 20, yPos);
                 yPos += 10;
-                
+
                 doc.setFontSize(10);
                 doc.text(`Tong so gop y: ${stats.total}`, 30, yPos);
                 yPos += 7;
-                doc.text(`Hai long: ${stats.happy} (${((stats.happy/stats.total)*100).toFixed(1)}%)`, 30, yPos);
+                doc.text(`Hai long: ${stats.happy} (${((stats.happy / stats.total) * 100).toFixed(1)}%)`, 30, yPos);
                 yPos += 7;
-                doc.text(`Binh thuong: ${stats.neutral} (${((stats.neutral/stats.total)*100).toFixed(1)}%)`, 30, yPos);
+                doc.text(`Binh thuong: ${stats.neutral} (${((stats.neutral / stats.total) * 100).toFixed(1)}%)`, 30, yPos);
                 yPos += 7;
-                doc.text(`Khong hai long: ${stats.sad} (${((stats.sad/stats.total)*100).toFixed(1)}%)`, 30, yPos);
+                doc.text(`Khong hai long: ${stats.sad} (${((stats.sad / stats.total) * 100).toFixed(1)}%)`, 30, yPos);
                 yPos += 10;
-                
+
                 doc.text(`Trang thai - Moi: ${stats.new}, Dang xu ly: ${stats.processing}, Da giai quyet: ${stats.resolved}`, 30, yPos);
                 yPos += 15;
 
@@ -2387,17 +2474,17 @@ ${feedbackData.content}
                 // Add summary of feedbacks (first 20)
                 doc.setFontSize(9);
                 const maxItems = Math.min(filteredData.length, 20);
-                
+
                 for (let i = 0; i < maxItems; i++) {
                     const feedback = filteredData[i];
                     const date = new Date(feedback.createdAt).toLocaleString('vi-VN');
-                    const satisfaction = feedback.satisfaction === 'happy' ? 'Hai long' : 
-                                       feedback.satisfaction === 'neutral' ? 'Binh thuong' : 'Khong hai long';
+                    const satisfaction = feedback.satisfaction === 'happy' ? 'Hai long' :
+                        feedback.satisfaction === 'neutral' ? 'Binh thuong' : 'Khong hai long';
                     const status = feedback.status === 'new' ? 'Moi' : 'Da giai quyet';
-                    
+
                     doc.text(`${i + 1}. ${date} - ${feedback.room} - ${satisfaction} [${status}]`, 25, yPos);
                     yPos += 5;
-                    
+
                     // Content (truncated if too long)
                     let content = feedback.content;
                     if (content.length > 80) {
@@ -2405,7 +2492,7 @@ ${feedbackData.content}
                     }
                     doc.text(`   "${content}"`, 25, yPos);
                     yPos += 5;
-                    
+
                     // Add timestamps if available
                     if (feedback.processingAt) {
                         const processingDate = new Date(feedback.processingAt).toLocaleString('vi-VN');
@@ -2417,7 +2504,7 @@ ${feedbackData.content}
                         doc.text(`   Hoan tat: ${resolvedDate}`, 25, yPos);
                         yPos += 5;
                     }
-                    
+
                     yPos += 3;
 
                     // Add new page if needed
@@ -2452,7 +2539,7 @@ ${feedbackData.content}
                 const today = new Date();
                 const from = new Date();
                 from.setDate(today.getDate() - days);
-                
+
                 setDateRange({
                     from: from.toISOString().split('T')[0],
                     to: today.toISOString().split('T')[0]
@@ -2479,9 +2566,9 @@ ${feedbackData.content}
             return (
                 <div>
                     <div className="card">
-                        <div style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
                             gap: '20px',
                             marginBottom: '20px',
                             padding: '15px',
@@ -2489,10 +2576,10 @@ ${feedbackData.content}
                             borderRadius: '12px',
                             color: 'white'
                         }}>
-                            <img 
-                                src="logo.png" 
+                            <img
+                                src="logo.png"
                                 alt="Logo BVNĐ"
-                                style={{ 
+                                style={{
                                     width: '100px',
                                     height: 'auto',
                                     flexShrink: 0,
@@ -2547,9 +2634,9 @@ ${feedbackData.content}
                                         type="date"
                                         value={dateRange.from}
                                         onChange={(e) => setDateRange({ ...dateRange, from: e.target.value })}
-                                        style={{ 
-                                            width: '100%', 
-                                            padding: '10px', 
+                                        style={{
+                                            width: '100%',
+                                            padding: '10px',
                                             borderRadius: '8px',
                                             border: '2px solid #e2e8f0'
                                         }}
@@ -2563,9 +2650,9 @@ ${feedbackData.content}
                                         type="date"
                                         value={dateRange.to}
                                         onChange={(e) => setDateRange({ ...dateRange, to: e.target.value })}
-                                        style={{ 
-                                            width: '100%', 
-                                            padding: '10px', 
+                                        style={{
+                                            width: '100%',
+                                            padding: '10px',
                                             borderRadius: '8px',
                                             border: '2px solid #e2e8f0'
                                         }}
@@ -2575,9 +2662,9 @@ ${feedbackData.content}
                         </div>
 
                         {/* Statistics */}
-                        <div style={{ 
-                            marginBottom: '20px', 
-                            padding: '20px', 
+                        <div style={{
+                            marginBottom: '20px',
+                            padding: '20px',
                             background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                             borderRadius: '12px',
                             color: 'white'
@@ -2593,19 +2680,19 @@ ${feedbackData.content}
                                 <div style={{ background: 'rgba(72,187,120,0.3)', padding: '15px', borderRadius: '8px' }}>
                                     <div style={{ fontSize: '32px', fontWeight: 'bold' }}>{filteredStats.happy}</div>
                                     <div style={{ fontSize: '14px' }}>
-                                        Hài lòng ({filteredStats.total > 0 ? ((filteredStats.happy/filteredStats.total)*100).toFixed(1) : 0}%)
+                                        Hài lòng ({filteredStats.total > 0 ? ((filteredStats.happy / filteredStats.total) * 100).toFixed(1) : 0}%)
                                     </div>
                                 </div>
                                 <div style={{ background: 'rgba(237,137,54,0.3)', padding: '15px', borderRadius: '8px' }}>
                                     <div style={{ fontSize: '32px', fontWeight: 'bold' }}>{filteredStats.neutral}</div>
                                     <div style={{ fontSize: '14px' }}>
-                                        Bình thường ({filteredStats.total > 0 ? ((filteredStats.neutral/filteredStats.total)*100).toFixed(1) : 0}%)
+                                        Bình thường ({filteredStats.total > 0 ? ((filteredStats.neutral / filteredStats.total) * 100).toFixed(1) : 0}%)
                                     </div>
                                 </div>
                                 <div style={{ background: 'rgba(245,101,101,0.3)', padding: '15px', borderRadius: '8px' }}>
                                     <div style={{ fontSize: '32px', fontWeight: 'bold' }}>{filteredStats.sad}</div>
                                     <div style={{ fontSize: '14px' }}>
-                                        Không hài lòng ({filteredStats.total > 0 ? ((filteredStats.sad/filteredStats.total)*100).toFixed(1) : 0}%)
+                                        Không hài lòng ({filteredStats.total > 0 ? ((filteredStats.sad / filteredStats.total) * 100).toFixed(1) : 0}%)
                                     </div>
                                 </div>
                             </div>
@@ -2613,7 +2700,7 @@ ${feedbackData.content}
 
                         {/* Export buttons */}
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-                            <button 
+                            <button
                                 className="btn btn-success"
                                 onClick={exportToExcel}
                                 style={{ fontSize: '16px', padding: '15px' }}
@@ -2623,7 +2710,7 @@ ${feedbackData.content}
                                     Danh sách chi tiết
                                 </div>
                             </button>
-                            <button 
+                            <button
                                 className="btn btn-danger"
                                 onClick={exportToPDF}
                                 style={{ fontSize: '16px', padding: '15px' }}
@@ -2640,23 +2727,22 @@ ${feedbackData.content}
                             <h3 style={{ fontSize: '16px', marginBottom: '10px', color: '#667eea' }}>
                                 👀 Xem trước ({filteredData.length} góp ý):
                             </h3>
-                            <div style={{ 
-                                maxHeight: '400px', 
-                                overflow: 'auto', 
-                                background: '#f7fafc', 
+                            <div style={{
+                                maxHeight: '400px',
+                                overflow: 'auto',
+                                background: '#f7fafc',
                                 padding: '15px',
                                 borderRadius: '8px'
                             }}>
                                 {filteredData.slice(0, 10).map((feedback, index) => (
-                                    <div key={feedback.id} style={{ 
+                                    <div key={feedback.id} style={{
                                         padding: '10px',
                                         marginBottom: '10px',
                                         background: 'white',
                                         borderRadius: '6px',
-                                        borderLeft: `4px solid ${
-                                            feedback.satisfaction === 'happy' ? '#48bb78' :
+                                        borderLeft: `4px solid ${feedback.satisfaction === 'happy' ? '#48bb78' :
                                             feedback.satisfaction === 'neutral' ? '#ed8936' : '#f56565'
-                                        }`
+                                            }`
                                     }}>
                                         <div style={{ fontSize: '13px', color: '#718096' }}>
                                             {index + 1}. {new Date(feedback.createdAt).toLocaleString('vi-VN')} - {feedback.room}
@@ -2755,4 +2841,5 @@ ${feedbackData.content}
         ReactDOM.render(<App />, document.getElementById('root'));
     </script>
 </body>
+
 </html>
